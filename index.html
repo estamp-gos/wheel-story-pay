@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Wheel Story — Professional Car Inspection Reports</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Calistoga&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --background: #FAFAFA;
+      --foreground: #0F172A;
+      --muted: #F1F5F9;
+      --muted-foreground: #64748B;
+      --accent: #0052FF;
+      --accent-secondary: #4D7CFF;
+      --accent-foreground: #FFFFFF;
+      --border: #E2E8F0;
+      --card: #FFFFFF;
+      --ring: #0052FF;
+      --gradient: linear-gradient(135deg, #0052FF, #4D7CFF);
+      --accent2: var(--accent-secondary);
+      --text: var(--foreground);
+      --surface: var(--muted);
+      --surface2: var(--card);
+      --gold: #CA8A04;
+      --gold2: var(--accent-secondary);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--background);
+      color: var(--foreground);
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: color 0.2s ease-out, opacity 0.2s ease-out;
+    }
+    a:hover { color: var(--accent-secondary); }
+
+    h1, h2 {
+      font-family: 'Calistoga', Georgia, serif;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      color: var(--foreground);
+    }
+    h3, h4 {
+      font-family: 'Inter', system-ui, sans-serif;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--foreground);
+    }
+    .font-display { font-family: 'Calistoga', Georgia, serif; }
+
+    .mesh-bg {
+      background:
+        radial-gradient(ellipse 80% 50% at 20% -10%, rgba(0, 82, 255, 0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 110%, rgba(77, 124, 255, 0.06) 0%, transparent 60%),
+        var(--background);
+    }
+    .hero-section {
+      position: relative;
+      isolation: isolate;
+    }
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background: url('images/hero-bg.jpg') center / cover no-repeat;
+      pointer-events: none;
+    }
+    .hero-section::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(250, 250, 250, 0.88) 0%,
+        rgba(250, 250, 250, 0.72) 45%,
+        rgba(250, 250, 250, 0.92) 100%
+      );
+      pointer-events: none;
+    }
+    .hero-section > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    nav {
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.2s ease-out, border-color 0.2s ease-out;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      border: 1px solid rgba(0, 82, 255, 0.3);
+      background: rgba(0, 82, 255, 0.05);
+      border-radius: 999px;
+      padding: 8px 20px;
+    }
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .plan-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+      transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, border-color 0.2s ease-out;
+      position: relative;
+      overflow: hidden;
+    }
+    .plan-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(0, 82, 255, 0.03) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.2s ease-out;
+      pointer-events: none;
+    }
+    .plan-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 25px rgba(0, 0, 0, 0.1);
+      border-color: rgba(0, 82, 255, 0.25);
+    }
+    .plan-card:hover::before { opacity: 1; }
+
+    .plan-card.popular {
+      border: 2px solid transparent;
+      background:
+        linear-gradient(var(--card), var(--card)) padding-box,
+        var(--gradient) border-box;
+      box-shadow: 0 4px 14px rgba(0, 82, 255, 0.25);
+    }
+    .plan-card.popular:hover {
+      box-shadow: 0 8px 24px rgba(0, 82, 255, 0.35);
+    }
+    .plan-card.gold-card { border-color: rgba(202, 138, 4, 0.35); }
+    .plan-card.gold-card:hover { border-color: rgba(202, 138, 4, 0.55); }
+    .plan-card.gold-card.popular {
+      background:
+        linear-gradient(var(--card), var(--card)) padding-box,
+        linear-gradient(135deg, #0052FF, #4D7CFF) border-box;
+      border: 2px solid transparent;
+      box-shadow: 0 4px 14px rgba(0, 82, 255, 0.25);
+    }
+
+    section#features .plan-card:hover .feature-icon-wrap {
+      transform: scale(1.1);
+    }
+    .feature-icon-wrap {
+      transition: transform 0.2s ease-out;
+    }
+
+    .btn-primary {
+      background: var(--gradient);
+      color: var(--accent-foreground);
+      font-family: 'Inter', system-ui, sans-serif;
+      font-weight: 600;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 24px !important;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, filter 0.2s ease-out;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 82, 255, 0.35);
+      filter: brightness(1.1);
+    }
+    .btn-primary:active { transform: scale(0.98); }
+
+    .btn-gold {
+      background: var(--gradient);
+      color: var(--accent-foreground);
+      font-family: 'Inter', system-ui, sans-serif;
+      font-weight: 600;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 24px !important;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, filter 0.2s ease-out;
+    }
+    .btn-gold:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 82, 255, 0.35);
+      filter: brightness(1.1);
+    }
+    .btn-gold:active { transform: scale(0.98); }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--foreground);
+      font-family: 'Inter', system-ui, sans-serif;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 24px !important;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+      transition: background 0.2s ease-out, border-color 0.2s ease-out, transform 0.2s ease-out, box-shadow 0.2s ease-out;
+    }
+    .btn-outline:hover {
+      background: var(--muted);
+      border-color: rgba(0, 82, 255, 0.3);
+    }
+    .btn-outline:active { transform: scale(0.98); }
+
+    .check-item { display: flex; align-items: flex-start; gap: 10px; color: var(--foreground); }
+    .check-icon { width: 18px; height: 18px; flex-shrink: 0; margin-top: 2px; }
+
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(15, 23, 42, 0.45);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s ease-out;
+    }
+    .modal-overlay.active { opacity: 1; pointer-events: all; }
+    .modal-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      width: 90%; max-width: 480px;
+      padding: 32px;
+      transform: scale(0.95) translateY(20px);
+      transition: transform 0.3s ease-out;
+      box-shadow: 0 20px 25px rgba(0, 0, 0, 0.1);
+    }
+    @media (max-width: 640px) {
+      .modal-box { padding: 24px; }
+    }
+    .modal-overlay.active .modal-box { transform: scale(1) translateY(0); }
+    .modal-close {
+      transition: background 0.2s ease-out, border-color 0.2s ease-out, transform 0.2s ease-out;
+    }
+    .modal-close:hover {
+      background: var(--card) !important;
+      border-color: rgba(0, 82, 255, 0.3) !important;
+      color: var(--foreground) !important;
+    }
+    .modal-close:active { transform: scale(0.98); }
+
+    .inp {
+      width: 100%;
+      min-height: 44px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--foreground);
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 15px;
+      padding: 12px 14px;
+      outline: none;
+      transition: box-shadow 0.2s ease-out, border-color 0.2s ease-out;
+    }
+    .inp:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--ring);
+    }
+    .inp::placeholder { color: rgba(100, 116, 139, 0.5); }
+
+    .toast {
+      position: fixed; bottom: 32px; right: 32px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 24px;
+      font-family: 'Inter', system-ui, sans-serif;
+      color: var(--foreground);
+      font-size: 14px;
+      z-index: 9999;
+      transform: translateY(20px); opacity: 0;
+      transition: all 0.3s ease-out;
+      display: flex; align-items: center; gap: 10px;
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.08);
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.error { border-color: #ef4444; }
+
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+      transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+    }
+    .stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.08);
+    }
+
+    .divider { border: none; border-top: 1px solid var(--border); }
+
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    .grad-text {
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
+    }
+    .grad-gold {
+      background: linear-gradient(135deg, #0052FF, #4D7CFF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .spinner {
+      width: 18px; height: 18px;
+      border: 2px solid rgba(255, 255, 255, 0.35);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      display: inline-block;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--muted); }
+    ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 3px; }
+
+    .section-dark {
+      background: #0F172A;
+      color: #FFFFFF;
+      position: relative;
+    }
+    .section-dark::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, white 1px, transparent 1px);
+      background-size: 32px 32px;
+      opacity: 0.03;
+      pointer-events: none;
+    }
+    .section-dark .max-w-5xl,
+    .section-dark .max-w-3xl { position: relative; z-index: 1; }
+    .section-dark h2,
+    .section-dark h3 { color: #FFFFFF; }
+    .section-dark .badge { color: var(--accent-secondary); border-color: rgba(77, 124, 255, 0.45); background: rgba(0, 82, 255, 0.12); }
+    .section-dark .badge-dot { background: var(--accent-secondary); }
+    .section-dark p,
+    .section-dark .faq-item .faq-answer { color: rgba(226, 232, 240, 0.9); }
+    .section-dark .plan-card {
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+    .section-dark .plan-card:hover {
+      border-color: rgba(77, 124, 255, 0.4);
+      box-shadow: 0 20px 25px rgba(0, 0, 0, 0.25);
+    }
+    .section-dark .plan-card::before {
+      background: linear-gradient(135deg, rgba(0, 82, 255, 0.08) 0%, transparent 60%);
+    }
+    .section-dark .faq-toggle { color: #FFFFFF; }
+
+    .plan-card.faq-item { overflow: visible; }
+    .faq-toggle {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-align: left;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      color: var(--foreground);
+      padding: 0;
+      font: inherit;
+      transition: color 0.2s ease-out;
+    }
+    .faq-item .faq-answer {
+      display: none;
+      margin-top: 1rem;
+      font-size: 0.875rem;
+      line-height: 1.7;
+      color: var(--muted-foreground);
+    }
+    .faq-item.is-open .faq-answer {
+      display: block !important;
+    }
+    .faq-chevron {
+      flex-shrink: 0;
+      transition: transform 0.2s ease-out;
+      color: var(--accent);
+    }
+    .section-dark .faq-chevron { color: var(--accent-secondary); }
+
+    .site-footer {
+      background: #0a0f1b;
+      color: #FFFFFF;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+    .site-footer .footer-logo-text { color: #FFFFFF; }
+    .site-footer .footer-tagline { color: rgba(255, 255, 255, 0.88); }
+    .site-footer .footer-legal { color: rgba(255, 255, 255, 0.55); }
+  </style>
+</head>
+<body class="mesh-bg">
+
+<!-- ═══════════════════════════ NAVBAR ═══════════════════════════ -->
+<nav class="fixed top-0 left-0 right-0 z-50" style="background: rgba(250,250,250,0.88);">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+    <div class="flex items-center">
+      <span class="font-display text-lg" style="font-weight:700; letter-spacing:-0.03em;">Wheel <span class="grad-text">Story</span></span>
+    </div>
+    <div class="hidden md:flex items-center gap-8 text-sm transition-all duration-200 ease-out">
+      <a href="#features" class="transition-all duration-200 ease-out" style="color:var(--accent);">Features</a>
+      <a href="#how" class="transition-all duration-200 ease-out" style="color:var(--accent);">How It Works</a>
+      <a href="#pricing" class="transition-all duration-200 ease-out" style="color:var(--accent);">Pricing</a>
+      <a href="#faq" class="transition-all duration-200 ease-out" style="color:var(--accent);">FAQ</a>
+    </div>
+    <button class="btn-primary text-sm transition-all duration-200 ease-out" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">
+      Get Report
+    </button>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════ HERO ═══════════════════════════ -->
+<section class="hero-section relative pt-36 pb-28 md:pb-36 px-6 text-center overflow-hidden">
+  <div class="max-w-4xl mx-auto">
+    <div class="badge mb-8 mx-auto">
+      <span class="badge-dot" style="background:#10B981;" aria-hidden="true"></span>
+      Trusted by 50,000+ Car Buyers Worldwide
+    </div>
+
+    <h1 class="text-5xl md:text-7xl leading-tight mb-6" style="line-height:1.05;">
+      Know Every Secret<br/>
+      <span class="grad-text">Before You Buy</span>
+    </h1>
+    <p class="text-lg md:text-xl mb-10 max-w-2xl mx-auto" style="color:var(--muted-foreground); line-height:1.7;">
+      Comprehensive vehicle history & inspection reports powered by real data. Accidents, title status, mileage fraud, and 150+ checkpoints — decoded in minutes.
+    </p>
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-5">
+      <button class="btn-primary text-base w-full sm:w-auto transition-all duration-200 ease-out" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">
+        View Pricing Plans →
+      </button>
+      <button class="btn-outline text-base w-full sm:w-auto transition-all duration-200 ease-out" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">
+        How It Works
+      </button>
+    </div>
+  </div>
+
+  <!-- Stats Row -->
+  <div class="relative max-w-6xl mx-auto mt-20 md:mt-28 grid grid-cols-2 md:grid-cols-4 gap-5 md:gap-8">
+    <div class="stat-card p-6 text-center reveal transition-all duration-200 ease-out">
+      <div class="text-3xl md:text-4xl grad-text mb-1" style="font-family:'Calistoga',Georgia,serif;">50K+</div>
+      <div class="text-sm" style="color:var(--muted-foreground);">Reports Generated</div>
+    </div>
+    <div class="stat-card p-6 text-center reveal transition-all duration-200 ease-out" style="transition-delay:0.1s;">
+      <div class="text-3xl md:text-4xl grad-text mb-1" style="font-family:'Calistoga',Georgia,serif;">150+</div>
+      <div class="text-sm" style="color:var(--muted-foreground);">Inspection Points</div>
+    </div>
+    <div class="stat-card p-6 text-center reveal transition-all duration-200 ease-out" style="transition-delay:0.2s;">
+      <div class="text-3xl md:text-4xl grad-text mb-1" style="font-family:'Calistoga',Georgia,serif;">99.7%</div>
+      <div class="text-sm" style="color:var(--muted-foreground);">Data Accuracy</div>
+    </div>
+    <div class="stat-card p-6 text-center reveal transition-all duration-200 ease-out" style="transition-delay:0.3s;">
+      <div class="text-3xl md:text-4xl grad-text mb-1" style="font-family:'Calistoga',Georgia,serif;">2 Min</div>
+      <div class="text-sm" style="color:var(--muted-foreground);">Avg. Delivery Time</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ FEATURES ═══════════════════════════ -->
+<section id="features" class="py-28 md:py-40 px-6">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-16 md:mb-20 reveal">
+      <div class="badge mb-6 mx-auto"><span class="badge-dot" aria-hidden="true"></span>What We Check</div>
+      <h2 class="text-4xl md:text-5xl mb-4">Complete Vehicle Intelligence</h2>
+      <p style="color:var(--muted-foreground); max-width:36rem; margin-left:auto; margin-right:auto;">Every report covers the data points that matter most to your decision.</p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6 md:gap-8">
+      <div class="plan-card p-7 md:p-8 reveal transition-all duration-200 ease-out">
+        <div class="feature-icon-wrap w-12 h-12 rounded-xl flex items-center justify-center mb-5" style="background:rgba(0,82,255,0.1);">
+          <svg width="22" height="22" fill="none" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="#0052FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 class="text-xl mb-3">Title & Ownership</h3>
+        <p class="text-sm leading-relaxed" style="color:var(--muted-foreground);">Salvage, rebuilt, flood, lemon law buyback, junk title detection — plus full ownership chain history.</p>
+      </div>
+      <div class="plan-card p-7 md:p-8 reveal transition-all duration-200 ease-out" style="transition-delay:0.1s;">
+        <div class="feature-icon-wrap w-12 h-12 rounded-xl flex items-center justify-center mb-5" style="background:rgba(0,82,255,0.08);">
+          <svg width="22" height="22" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="#0052FF" stroke-width="2"/><path d="M12 8v4l3 3" stroke="#0052FF" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="text-xl mb-3">Accident History</h3>
+        <p class="text-sm leading-relaxed" style="color:var(--muted-foreground);">Reported collisions, airbag deployments, structural damage, and insurance claims from 50+ sources.</p>
+      </div>
+      <div class="plan-card p-7 md:p-8 reveal transition-all duration-200 ease-out" style="transition-delay:0.2s;">
+        <div class="feature-icon-wrap w-12 h-12 rounded-xl flex items-center justify-center mb-5" style="background:rgba(77,124,255,0.12);">
+          <svg width="22" height="22" fill="none" viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h18" stroke="#4D7CFF" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="text-xl mb-3">Odometer Check</h3>
+        <p class="text-sm leading-relaxed" style="color:var(--muted-foreground);">Mileage rollback detection through cross-referenced service records and state DMV data.</p>
+      </div>
+      <div class="plan-card p-7 md:p-8 reveal transition-all duration-200 ease-out" style="transition-delay:0.05s;">
+        <div class="feature-icon-wrap w-12 h-12 rounded-xl flex items-center justify-center mb-5" style="background:rgba(0,82,255,0.07);">
+          <svg width="22" height="22" fill="none" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" stroke="#0052FF" stroke-width="2"/><path d="M7 11V7a5 5 0 0110 0v4" stroke="#0052FF" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="text-xl mb-3">Theft Records</h3>
+        <p class="text-sm leading-relaxed" style="color:var(--muted-foreground);">NCIC database checks for stolen vehicles and VIN cloning flags across all 50 states.</p>
+      </div>
+      <div class="plan-card p-7 md:p-8 reveal transition-all duration-200 ease-out" style="transition-delay:0.15s;">
+        <div class="feature-icon-wrap w-12 h-12 rounded-xl flex items-center justify-center mb-5" style="background:rgba(16,185,129,0.12);">
+          <svg width="22" height="22" fill="none" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4M21 12c0 4.97-4.03 9-9 9S3 16.97 3 12 7.03 3 12 3s9 4.03 9 9z" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 class="text-xl mb-3">Service Records</h3>
+        <p class="text-sm leading-relaxed" style="color:var(--muted-foreground);">Maintenance logs, oil changes, recalls, and dealer service history across 35,000+ shops.</p>
+      </div>
+      <div class="plan-card p-7 md:p-8 reveal transition-all duration-200 ease-out" style="transition-delay:0.25s;">
+        <div class="feature-icon-wrap w-12 h-12 rounded-xl flex items-center justify-center mb-5" style="background:rgba(239,68,68,0.1);">
+          <svg width="22" height="22" fill="none" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="#DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 class="text-xl mb-3">Open Recalls</h3>
+        <p class="text-sm leading-relaxed" style="color:var(--muted-foreground);">NHTSA recall alerts, safety campaigns, and whether critical fixes have been completed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ HOW IT WORKS ═══════════════════════════ -->
+<section id="how" class="section-dark py-28 md:py-40 px-6">
+  <div class="max-w-5xl mx-auto">
+    <div class="text-center mb-16 md:mb-20 reveal">
+      <div class="badge mb-6 mx-auto"><span class="badge-dot" aria-hidden="true"></span>Process</div>
+      <h2 class="text-4xl md:text-5xl mb-4">3 Steps to Full Clarity</h2>
+    </div>
+    <div class="grid md:grid-cols-3 gap-8 md:gap-10 relative">
+      <div class="hidden md:block absolute top-8 left-1/4 right-1/4 h-px" style="background: linear-gradient(90deg, transparent, rgba(77,124,255,0.6), transparent); top: 32px;"></div>
+      <div class="text-center reveal">
+        <div class="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-5 text-2xl relative z-10 transition-all duration-200 ease-out" style="background: var(--gradient); font-family:'Calistoga',Georgia,serif; color:#fff; box-shadow:0 4px 14px rgba(0,82,255,0.35);">1</div>
+        <h3 class="text-xl mb-3">Choose a Plan</h3>
+        <p class="text-sm" style="color:rgba(226,232,240,0.85);">Select Basic, Gold, or Premium based on how deep you want to go.</p>
+      </div>
+      <div class="text-center reveal" style="transition-delay:0.15s;">
+        <div class="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-5 text-2xl relative z-10 transition-all duration-200 ease-out" style="background: var(--gradient); font-family:'Calistoga',Georgia,serif; color:#fff; box-shadow:0 4px 14px rgba(0,82,255,0.35);">2</div>
+        <h3 class="text-xl mb-3">Enter VIN & Pay</h3>
+        <p class="text-sm" style="color:rgba(226,232,240,0.85);">Provide the 17-digit VIN and your email, then complete secure payment.</p>
+      </div>
+      <div class="text-center reveal" style="transition-delay:0.3s;">
+        <div class="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-5 text-2xl relative z-10 transition-all duration-200 ease-out" style="background: var(--gradient); font-family:'Calistoga',Georgia,serif; color:#fff; box-shadow:0 4px 14px rgba(0,82,255,0.35);">3</div>
+        <h3 class="text-xl mb-3">Receive Report</h3>
+        <p class="text-sm" style="color:rgba(226,232,240,0.85);">Your detailed report lands in your inbox within minutes. No account needed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ PRICING ═══════════════════════════ -->
+<section id="pricing" class="py-28 md:py-40 px-6">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-16 md:mb-20 reveal">
+      <div class="badge mb-6 mx-auto"><span class="badge-dot" aria-hidden="true"></span>Pricing</div>
+      <h2 class="text-4xl md:text-5xl mb-4">Simple, Transparent Plans</h2>
+      <p style="color:var(--muted-foreground);">One-time payment. No subscriptions. No hidden fees.</p>
+    </div>
+
+    <div class="max-w-lg mx-auto">
+      <!-- FULL REPORT -->
+      <div class="plan-card popular p-8 md:p-10 flex flex-col reveal transition-all duration-200 ease-out">
+        <div class="absolute top-5 right-5">
+          <span style="font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:500; letter-spacing:0.12em; text-transform:uppercase; padding:8px 14px; border-radius:999px; background:rgba(0,82,255,0.12); color:var(--accent-secondary); border:1px solid rgba(0,82,255,0.35);">★ Limited Offer</span>
+        </div>
+        <div class="mb-6">
+          <div class="flex items-center gap-2 mb-1">
+            <span style="font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; padding:6px 14px; border-radius:999px; background:rgba(0,82,255,0.08); color:var(--accent); border:1px solid rgba(0,82,255,0.25);">Full Report</span>
+          </div>
+          <div class="mt-4 flex items-end gap-3">
+            <span class="text-3xl line-through" style="font-family:'Calistoga',Georgia,serif; color:var(--muted-foreground);">£35</span>
+            <div class="flex items-end gap-1">
+              <span class="text-5xl grad-text" style="font-family:'Calistoga',Georgia,serif;">£30</span>
+            </div>
+          </div>
+          <p class="text-sm mt-2" style="color:var(--muted-foreground);">Ultimate coverage for high-value purchases and dealerships.</p>
+        </div>
+        <hr class="divider my-4"/>
+        <ul class="space-y-3 flex-1 mb-8">
+          <li class="check-item text-sm"><svg class="check-icon" fill="none" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke="#0052FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Title & Ownership Records</li>
+          <li class="check-item text-sm"><svg class="check-icon" fill="none" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke="#0052FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Accident & Damage History</li>
+          <li class="check-item text-sm"><svg class="check-icon" fill="none" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke="#0052FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Odometer Verification</li>
+          <li class="check-item text-sm"><svg class="check-icon" fill="none" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke="#0052FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Theft Check (NCIC)</li>
+          <li class="check-item text-sm"><svg class="check-icon" fill="none" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke="#0052FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Full Service & Maintenance Log</li>
+          <li class="check-item text-sm"><svg class="check-icon" fill="none" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke="#0052FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Detailed Market Value Report</li>
+          <li class="check-item text-sm"><svg class="check-icon" fill="none" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke="#0052FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Insurance Loss Records</li>
+          <li class="check-item text-sm"><svg class="check-icon" fill="none" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke="#0052FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Export / Import History</li>
+          <li class="check-item text-sm"><svg class="check-icon" fill="none" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke="#0052FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Auction & Fleet Records</li>
+          <li class="check-item text-sm"><svg class="check-icon" fill="none" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke="#0052FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Priority Email Delivery</li>
+        </ul>
+        <button class="btn-primary w-full text-sm transition-all duration-200 ease-out" onclick="openModal('Full Report','£30')">Get Report</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ FAQ ═══════════════════════════ -->
+<section id="faq" class="section-dark py-28 md:py-40 px-6">
+  <div class="max-w-3xl mx-auto">
+    <div class="text-center mb-14 md:mb-16 reveal">
+      <div class="badge mb-6 mx-auto"><span class="badge-dot" aria-hidden="true"></span>FAQ</div>
+      <h2 class="text-4xl md:text-5xl">Common Questions</h2>
+    </div>
+    <div class="space-y-5">
+      <div class="plan-card faq-item p-6 md:p-8 reveal transition-all duration-200 ease-out" id="faq1">
+        <button type="button" class="faq-toggle" aria-expanded="false" aria-controls="faq1-body" id="faq1-btn">
+          <span class="font-600 text-base" style="font-family:'Inter',sans-serif; font-weight:600;">Where do I find the VIN number?</span>
+          <svg class="faq-chevron faq-icon" width="20" height="20" fill="none" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 9l-7 7-7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="faq-answer" id="faq1-body">The VIN (Vehicle Identification Number) is a 17-character code found on the dashboard (driver's side, visible through windshield), the driver's side door jamb sticker, or in vehicle registration documents.</div>
+      </div>
+      <div class="plan-card faq-item p-6 md:p-8 reveal transition-all duration-200 ease-out" id="faq2">
+        <button type="button" class="faq-toggle" aria-expanded="false" aria-controls="faq2-body" id="faq2-btn">
+          <span class="font-600 text-base" style="font-family:'Inter',sans-serif; font-weight:600;">How fast will I receive my report?</span>
+          <svg class="faq-chevron faq-icon" width="20" height="20" fill="none" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 9l-7 7-7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="faq-answer" id="faq2-body">Most reports are delivered within 2–5 minutes after payment confirmation. Premium orders receive priority processing. During peak hours it may take up to 15 minutes.</div>
+      </div>
+      <div class="plan-card faq-item p-6 md:p-8 reveal transition-all duration-200 ease-out" id="faq3">
+        <button type="button" class="faq-toggle" aria-expanded="false" aria-controls="faq3-body" id="faq3-btn">
+          <span class="font-600 text-base" style="font-family:'Inter',sans-serif; font-weight:600;">Which payment methods are accepted?</span>
+          <svg class="faq-chevron faq-icon" width="20" height="20" fill="none" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 9l-7 7-7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="faq-answer" id="faq3-body">We accept all major credit/debit cards, PayPal, and bank transfers via Payoneer — a secure and globally trusted payment platform.</div>
+      </div>
+      <div class="plan-card faq-item p-6 md:p-8 reveal transition-all duration-200 ease-out" id="faq4">
+        <button type="button" class="faq-toggle" aria-expanded="false" aria-controls="faq4-body" id="faq4-btn">
+          <span class="font-600 text-base" style="font-family:'Inter',sans-serif; font-weight:600;">Can I get a refund if I'm not satisfied?</span>
+          <svg class="faq-chevron faq-icon" width="20" height="20" fill="none" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 9l-7 7-7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="faq-answer" id="faq4-body">We offer a 100% satisfaction guarantee. If your report contains no data for the entered VIN, we'll issue a full refund within 24 hours. Contact us via email to start the process.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ FOOTER ═══════════════════════════ -->
+<footer class="site-footer py-14 md:py-16 px-6 text-center">
+  <div class="max-w-6xl mx-auto">
+    <div class="flex items-center justify-center mb-4">
+      <span class="font-display text-lg footer-logo-text" style="font-weight:700; letter-spacing:-0.03em;">Wheel <span class="grad-text">Story</span></span>
+    </div>
+    <p class="text-sm mb-6 footer-tagline">Professional vehicle inspection reports. Trusted. Accurate. Fast.</p>
+    <p class="text-xs footer-legal">© 2025 Wheel Story. All rights reserved. Reports are for informational purposes only.</p>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════ MODAL ═══════════════════════════ -->
+<div class="modal-overlay" id="mainModal">
+  <div class="modal-box">
+    <div class="flex items-center justify-between mb-4">
+      <div>
+        <h3 class="text-xl" style="font-family:'Inter',sans-serif; font-weight:600;" id="modalTitle">Get Your Report</h3>
+        <p class="text-sm mt-1" style="color:var(--muted-foreground);">
+          Plan: <span id="modalPlan" class="font-600" style="color:var(--accent); font-weight:600;"></span> &nbsp;|&nbsp;
+          Price: <span id="modalPrice" class="font-600" style="color:var(--accent-secondary); font-weight:600;"></span>
+        </p>
+      </div>
+      <button type="button" onclick="closeModal()" class="modal-close w-9 h-9 flex items-center justify-center rounded-xl" style="color:var(--muted-foreground); border:1px solid var(--border); background:var(--muted);">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+
+    <div class="space-y-3">
+      <div>
+        <label class="text-sm font-500 mb-2 block" style="color:var(--foreground); font-weight:500;">Vehicle Type <span style="color:#ef4444;">*</span></label>
+        <select id="vehicleTypeInput" class="inp" style="appearance: none; background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22currentColor%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 1rem center; background-size: 1.2em;">
+          <option value="" disabled selected>Select a vehicle type</option>
+          <option value="Jeep">Jeep</option>
+          <option value="Car">Car</option>
+          <option value="Bike">Bike</option>
+          <option value="Truck">Truck</option>
+          <option value="Camper Van">Camper Van</option>
+          <option value="ATV">ATV</option>
+          <option value="Boat">Boat</option>
+          <option value="Jet Ski">Jet Ski</option>
+          <option value="Van">Van</option>
+          <option value="RV (Class A)">RV (Class A)</option>
+          <option value="RV (Class B)">RV (Class B)</option>
+          <option value="RV (Class C)">RV (Class C)</option>
+          <option value="Trailer">Trailer</option>
+          <option value="Fifth Wheel">Fifth Wheel</option>
+          <option value="Toy Hauler">Toy Hauler</option>
+          <option value="Caravan">Caravan</option>
+          <option value="Motorhome">Motorhome</option>
+        </select>
+      </div>
+      <div>
+        <label class="text-sm font-500 mb-2 block" style="color:var(--foreground); font-weight:500;">VIN Number <span style="color:#ef4444;">*</span></label>
+        <input type="text" id="vinInput" class="inp" placeholder="e.g. 1HGBH41JXMN109186" maxlength="17"/>
+        <p class="text-xs mt-1" style="color:var(--muted-foreground);">17-character Vehicle Identification Number</p>
+      </div>
+      <div>
+        <label class="text-sm font-500 mb-2 block" style="color:var(--foreground); font-weight:500;">Email Address <span style="color:#ef4444;">*</span></label>
+        <input type="email" id="emailInput" class="inp" placeholder="you@example.com"/>
+        <p class="text-xs mt-1" style="color:var(--muted-foreground);">Your report will be sent to this email</p>
+      </div>
+    </div>
+
+    <div class="mt-5 p-4 rounded-xl text-sm transition-all duration-200 ease-out" style="background:rgba(0,82,255,0.06); border:1px solid rgba(0,82,255,0.2); color:var(--accent);">
+      <div class="flex items-start gap-2">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" class="mt-0.5 flex-shrink-0"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        After submission you'll be redirected to our secure Payoneer payment page. Your report will be emailed once payment is confirmed.
+      </div>
+    </div>
+
+    <div class="mt-5 flex gap-3">
+      <button type="button" class="btn-outline flex-1 text-sm transition-all duration-200 ease-out" onclick="closeModal()">Cancel</button>
+      <button type="button" class="btn-primary flex-1 text-sm flex items-center justify-center gap-2 transition-all duration-200 ease-out" id="submitBtn" onclick="handleSubmit()">
+        <span>Proceed to Payment</span>
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- ═══════════════════════════ SCRIPTS ═══════════════════════════ -->
+<script>
+  // ─────────────────────────────────────────────────────────
+  // GOOGLE SHEETS CONFIG
+  // Yahan apna Apps Script Web App URL paste karein (setup guide dekho)
+  // ─────────────────────────────────────────────────────────
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwQg3hQXVhzIGOytzwF00WTUSS7CVHR9wOBYfDRNRKmbzAenIJp7_KiScUuYQoIpRIlpg/exec';
+
+  // ─── EmailJS init (agar use kar rahe hain) ───
+  let EMAILJS_CONFIG = { publicKey: '', serviceId: '', templateId: '' };
+
+  // ─── Config load: pehle Google Sheets se, fallback localStorage se ───
+  let payoneerLink = '#';
+
+  async function loadConfig() {
+    // 1. Google Sheets se fetch karne ki koshish
+    if (APPS_SCRIPT_URL && APPS_SCRIPT_URL !== 'YOUR_APPS_SCRIPT_WEB_APP_URL_HERE') {
+      try {
+        const res = await fetch(`${APPS_SCRIPT_URL}?action=getConfig`, { method: 'GET' });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.payoneerLink) payoneerLink = data.payoneerLink;
+          if (data.emailjsPublicKey) {
+            EMAILJS_CONFIG.publicKey = data.emailjsPublicKey;
+            EMAILJS_CONFIG.serviceId = data.emailjsServiceId || '';
+            EMAILJS_CONFIG.templateId = data.emailjsTemplateId || '';
+            emailjs.init(data.emailjsPublicKey);
+          }
+          return; // Google Sheets se mil gaya, bas karo
+        }
+      } catch(e) {
+        console.warn('Google Sheets fetch failed, trying local fallbacks...', e);
+      }
+    }
+
+    // 2. Fallback: localStorage se (setup.html ne save kiya tha)
+    try {
+      const saved = localStorage.getItem('autoinspect_config');
+      if (saved) {
+        const c = JSON.parse(saved);
+        if (c.payoneerLink) payoneerLink = c.payoneerLink;
+        if (c.emailjsPublicKey) {
+          EMAILJS_CONFIG.publicKey = c.emailjsPublicKey;
+          EMAILJS_CONFIG.serviceId = c.emailjsServiceId || '';
+          EMAILJS_CONFIG.templateId = c.emailjsTemplateId || '';
+          emailjs.init(c.emailjsPublicKey);
+        }
+        return;
+      }
+    } catch(e) {}
+
+    // 3. Fallback: config.json file se
+    try {
+      const res = await fetch('config.json');
+      if (res.ok) {
+        const c = await res.json();
+        if (c.payoneerLink) payoneerLink = c.payoneerLink;
+        if (c.emailjsPublicKey) {
+          EMAILJS_CONFIG.publicKey = c.emailjsPublicKey;
+          EMAILJS_CONFIG.serviceId = c.emailjsServiceId || '';
+          EMAILJS_CONFIG.templateId = c.emailjsTemplateId || '';
+          emailjs.init(c.emailjsPublicKey);
+        }
+      }
+    } catch(e) {}
+  }
+
+  loadConfig();
+
+  // ─── Modal State ───
+  let currentPlan = '', currentPrice = '';
+
+  function openModal(plan, price) {
+    currentPlan = plan; currentPrice = price;
+    document.getElementById('modalPlan').textContent = plan;
+    document.getElementById('modalPrice').textContent = price;
+    document.getElementById('mainModal').classList.add('active');
+    document.getElementById('vehicleTypeInput').value = '';
+    document.getElementById('vinInput').value = '';
+    document.getElementById('emailInput').value = '';
+    resetBtn();
+  }
+  function closeModal() {
+    document.getElementById('mainModal').classList.remove('active');
+  }
+  document.getElementById('mainModal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+
+  // ─── Submit Handler ───
+  async function handleSubmit() {
+    const vehicleType = document.getElementById('vehicleTypeInput').value;
+    const vin = document.getElementById('vinInput').value.trim().toUpperCase();
+    const email = document.getElementById('emailInput').value.trim();
+    const emailReg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const vinReg = /^[A-HJ-NPR-Z0-9]{17}$/;
+
+    if (!vehicleType) return showToast('Please select a vehicle type.', 'error');
+    if (!vin) return showToast('Please enter your VIN number.', 'error');
+    if (!vinReg.test(vin)) return showToast('VIN must be exactly 17 valid characters.', 'error');
+    if (!email) return showToast('Please enter your email address.', 'error');
+    if (!emailReg.test(email)) return showToast('Please enter a valid email address.', 'error');
+
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span><span>Processing...</span>';
+
+    try {
+      // Google Sheets mein order save karo
+      if (APPS_SCRIPT_URL && APPS_SCRIPT_URL !== 'YOUR_APPS_SCRIPT_WEB_APP_URL_HERE') {
+        try {
+          await fetch(APPS_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors', // CORS bypass
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              action: 'saveOrder',
+              plan: currentPlan,
+              price: currentPrice,
+              vehicleType: vehicleType,
+              vin: vin,
+              email: email,
+              timestamp: new Date().toISOString()
+            })
+          });
+        } catch(e) {
+          console.warn('Order save to Sheets failed:', e);
+        }
+      }
+
+      // EmailJS se notification bhejo
+      if (EMAILJS_CONFIG.publicKey && EMAILJS_CONFIG.serviceId && EMAILJS_CONFIG.templateId) {
+        try {
+          await emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.templateId, {
+            plan: currentPlan,
+            price: currentPrice,
+            vehicle_type: vehicleType,
+            vin_number: vin,
+            customer_email: email,
+            to_email: email
+          });
+        } catch(e) {
+          console.warn('EmailJS failed:', e);
+        }
+      }
+
+      // Payoneer pe redirect
+      showToast('Order received! Redirecting to payment…', 'success');
+      setTimeout(() => {
+        if (payoneerLink && payoneerLink !== '#') {
+          window.open(payoneerLink, '_blank');
+        }
+        closeModal();
+        resetBtn();
+      }, 1500);
+
+    } catch(err) {
+      showToast('Something went wrong. Please try again.', 'error');
+      resetBtn();
+    }
+  }
+
+  function resetBtn() {
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = false;
+    btn.innerHTML = '<span>Proceed to Payment</span><svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  }
+
+  // ─── Toast ───
+  let toastTimer;
+  function showToast(msg, type='success') {
+    clearTimeout(toastTimer);
+    const t = document.getElementById('toast');
+    const icon = type === 'error'
+      ? '<svg width="16" height="16" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="#ef4444" stroke-width="2"/><path d="M12 8v4M12 16h.01" stroke="#ef4444" stroke-width="2" stroke-linecap="round"/></svg>'
+      : '<svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    t.innerHTML = icon + msg;
+    t.className = 'toast show' + (type === 'error' ? ' error' : '');
+    toastTimer = setTimeout(() => t.className = 'toast', 3500);
+  }
+
+  // ─── FAQ Accordion ───
+  function initFaqAccordion() {
+    document.querySelectorAll('.faq-item').forEach(function(card) {
+      var btn = card.querySelector('.faq-toggle');
+      var icon = card.querySelector('.faq-icon');
+      if (!btn || !icon) return;
+      btn.addEventListener('click', function() {
+        var open = card.classList.toggle('is-open');
+        icon.style.transform = open ? 'rotate(180deg)' : 'rotate(0deg)';
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    });
+  }
+  initFaqAccordion();
+
+  // ─── Scroll Reveal ───
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
