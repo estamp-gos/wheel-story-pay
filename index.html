@@ -604,7 +604,7 @@
           <div class="mt-4 flex items-end gap-3">
             <span class="text-3xl line-through" style="font-family:'Calistoga',Georgia,serif; color:var(--muted-foreground);">£35</span>
             <div class="flex items-end gap-1">
-              <span class="text-5xl grad-text" style="font-family:'Calistoga',Georgia,serif;">£30</span>
+              <span class="text-5xl grad-text" style="font-family:'Calistoga',Georgia,serif;">£24.99</span>
             </div>
           </div>
           <p class="text-sm mt-2" style="color:var(--muted-foreground);">Ultimate coverage for high-value purchases and dealerships.</p>
@@ -622,7 +622,7 @@
           <li class="check-item text-sm"><svg class="check-icon" fill="none" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke="#0052FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Auction & Fleet Records</li>
           <li class="check-item text-sm"><svg class="check-icon" fill="none" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke="#0052FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Priority Email Delivery</li>
         </ul>
-        <button class="btn-primary w-full text-sm transition-all duration-200 ease-out" onclick="openModal('Full Report','£30')">Get Report</button>
+        <button class="btn-primary w-full text-sm transition-all duration-200 ease-out" onclick="openModal('Full Report','£24.99')">Get Report</button>
       </div>
     </div>
   </div>
@@ -763,7 +763,7 @@
   let EMAILJS_CONFIG = { publicKey: '', serviceId: '', templateId: '' };
 
   // ─── Config load: pehle Google Sheets se, fallback localStorage se ───
-  let payoneerLink = '#';
+  let payoneerLink = 'https://checkout.freemius.com/product/27824/plan/49921/';
 
   async function loadConfig() {
     // 1. Google Sheets se fetch karne ki koshish
