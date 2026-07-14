@@ -138,6 +138,7 @@
               <div class="step-num text-sm">2</div>
               <p class="text-sm pt-1" style="color:var(--muted);">
                 Sheet mein menu: <strong style="color:var(--text);">Extensions → Apps Script</strong>. Jo code aaya hai use delete karo aur neeche wala <strong style="color:var(--text);">Apps Script Code</strong> paste karo.
+                Orders email <strong style="color:var(--text);">rmoto7817@gmail.com</strong> pe jayengi — deploy jab is Gmail se logged in ho.
               </p>
             </div>
             <div class="flex gap-3 items-start">
@@ -165,6 +166,8 @@
           </div>
           <pre id="appsScriptCode" class="text-xs p-4 rounded-xl overflow-x-auto" style="background:rgba(0,0,0,0.4); color:#94a3b8; border:1px solid rgba(255,255,255,0.06); line-height:1.6; white-space:pre-wrap; word-break:break-word;">const SHEET_NAME = 'Config';
 const ORDERS_SHEET = 'Orders';
+// Order emails go here (via Gmail of the account that deploys this script)
+const NOTIFY_EMAIL = 'rmoto7817@gmail.com';
 
 function doGet(e) {
   const action = e.parameter.action;
@@ -262,14 +265,37 @@ function saveOrder(data) {
     sheet.getRange('A1:F1').setValues([['Timestamp', 'Plan', 'Price', 'Vehicle Type', 'VIN', 'Email']]);
   }
   
-  sheet.appendRow([
-    data.timestamp || new Date().toISOString(),
-    data.plan || '',
-    data.price || '',
-    data.vehicleType || '',
-    data.vin || '',
-    data.email || ''
-  ]);
+  const timestamp = data.timestamp || new Date().toISOString();
+  const plan = data.plan || '';
+  const price = data.price || '';
+  const vehicleType = data.vehicleType || '';
+  const vin = data.vin || '';
+  const email = data.email || '';
+  
+  sheet.appendRow([timestamp, plan, price, vehicleType, vin, email]);
+  
+  // Send order details to Gmail (Google mail — no password in website)
+  try {
+    const subject = 'New Vehicle Check Order — ' + (vin || 'No VIN');
+    const body =
+      'New order from the website:\n\n' +
+      'Plan: ' + plan + '\n' +
+      'Price: ' + price + '\n' +
+      'Vehicle Type: ' + vehicleType + '\n' +
+      'VIN: ' + vin + '\n' +
+      'Customer Email: ' + email + '\n' +
+      'Time: ' + timestamp + '\n';
+    
+    MailApp.sendEmail({
+      to: NOTIFY_EMAIL,
+      subject: subject,
+      body: body,
+      replyTo: email || NOTIFY_EMAIL
+    });
+  } catch (mailErr) {
+    // Order is still saved even if email fails
+    Logger.log('Email failed: ' + mailErr);
+  }
   
   return ContentService
     .createTextOutput(JSON.stringify({ success: true }))
@@ -311,7 +337,7 @@ function saveOrder(data) {
         </div>
       </section>
 
-      <!-- ══════════════════ EMAILJS ══════════════════ -->
+      <!-- ══════════════════ EMAILJS + GMAIL SMTP ══════════════════ -->
       <section id="emailjs" class="card p-7 mb-6">
         <div class="section-header">
           <div class="flex items-center gap-3">
@@ -319,36 +345,52 @@ function saveOrder(data) {
               <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="#10b981" stroke-width="2"/><polyline points="22,6 12,13 2,6" stroke="#10b981" stroke-width="2"/></svg>
             </div>
             <div>
-              <h2 class="text-lg" style="font-family:'Syne',sans-serif; font-weight:700;">EmailJS Configuration</h2>
-              <p class="text-sm" style="color:var(--muted);">Order notification email — optional but recommended</p>
+              <h2 class="text-lg" style="font-family:'Syne',sans-serif; font-weight:700;">Google SMTP (Gmail) via EmailJS</h2>
+              <p class="text-sm" style="color:var(--muted);">Required — form orders email to rmoto7817@gmail.com. No Apps Script.</p>
             </div>
           </div>
         </div>
 
+        <div class="p-5 rounded-xl mb-5" style="background:rgba(245,158,11,0.06); border:1px solid rgba(245,158,11,0.2);">
+          <p class="text-sm mb-3" style="color:#f59e0b; font-family:'Syne',sans-serif; font-weight:700;">📋 One-time Gmail SMTP setup</p>
+          <ol class="text-sm space-y-2" style="color:var(--muted); padding-left:1.1rem; list-style:decimal;">
+            <li>Open <a href="https://myaccount.google.com/apppasswords" target="_blank" style="color:var(--accent2);">Google App Passwords</a> (2-Step Verification must be ON). Create password for “Mail”. Copy the 16-character password.</li>
+            <li>Sign up at <a href="https://www.emailjs.com/" target="_blank" style="color:var(--accent2);">emailjs.com</a> → <strong style="color:var(--text);">Email Services → Add New Service → Gmail</strong> (or Custom SMTP).</li>
+            <li>Gmail / SMTP settings:
+              <code style="display:block;margin-top:6px;padding:8px;border-radius:8px;background:rgba(0,0,0,0.35);color:#f59e0b;font-size:11px;">Host: smtp.gmail.com · Port: 587 · User: rmoto7817@gmail.com · Pass: your App Password</code>
+              Never put this password in index.html — only in EmailJS.
+            </li>
+            <li><strong style="color:var(--text);">Email Templates → Create New Template</strong>. Set <strong style="color:var(--text);">To Email</strong> = <code style="color:#f59e0b;">{{to_email}}</code> (or rmoto7817@gmail.com). Subject e.g. <code style="color:#f59e0b;">New order {{vin_number}}</code>. Body can use the variables below. Click Test → then Save.</li>
+            <li>Copy Public Key, Service ID, Template ID into the fields below → Save.</li>
+          </ol>
+        </div>
+
         <div class="space-y-5">
           <div>
-            <label class="block text-sm font-600 mb-2">Public Key (User ID)</label>
-            <input type="text" id="ejsPublicKey" class="inp" placeholder="e.g. user_AbCdEfGhIjKlMnOp"/>
-            <p class="text-xs mt-1.5" style="color:var(--muted);">EmailJS Dashboard → Account → API Keys</p>
+            <label class="block text-sm font-600 mb-2">Public Key <span style="color:#ef4444;">*</span></label>
+            <input type="text" id="ejsPublicKey" class="inp" placeholder="e.g. xxxxxxxx"/>
+            <p class="text-xs mt-1.5" style="color:var(--muted);">EmailJS → Account → General → Public Key</p>
           </div>
           <div>
-            <label class="block text-sm font-600 mb-2">Service ID</label>
+            <label class="block text-sm font-600 mb-2">Service ID <span style="color:#ef4444;">*</span></label>
             <input type="text" id="ejsServiceId" class="inp" placeholder="e.g. service_xxxxxxx"/>
           </div>
           <div>
-            <label class="block text-sm font-600 mb-2">Template ID</label>
+            <label class="block text-sm font-600 mb-2">Template ID <span style="color:#ef4444;">*</span></label>
             <input type="text" id="ejsTemplateId" class="inp" placeholder="e.g. template_xxxxxxx"/>
           </div>
         </div>
 
         <div class="mt-6 p-5 rounded-xl" style="background:rgba(59,130,246,0.06); border:1px solid rgba(59,130,246,0.2);">
-          <p class="text-sm font-600 mb-3" style="color:var(--accent2);">📋 EmailJS Template Variables:</p>
+          <p class="text-sm font-600 mb-3" style="color:var(--accent2);">📋 Template variables (use in EmailJS body)</p>
           <div class="space-y-2">
-            <div class="flex items-center gap-3"><code class="text-xs px-2 py-1 rounded" style="background:rgba(0,0,0,0.3); color:#f59e0b;">{{plan}}</code><span class="text-xs" style="color:var(--muted);">→ Plan (Basic / Gold / Premium)</span></div>
-            <div class="flex items-center gap-3"><code class="text-xs px-2 py-1 rounded" style="background:rgba(0,0,0,0.3); color:#f59e0b;">{{price}}</code><span class="text-xs" style="color:var(--muted);">→ Price ($9.99 etc.)</span></div>
-            <div class="flex items-center gap-3"><code class="text-xs px-2 py-1 rounded" style="background:rgba(0,0,0,0.3); color:#f59e0b;">{{vehicle_type}}</code><span class="text-xs" style="color:var(--muted);">→ Customer Vehicle Type</span></div>
-            <div class="flex items-center gap-3"><code class="text-xs px-2 py-1 rounded" style="background:rgba(0,0,0,0.3); color:#f59e0b;">{{vin_number}}</code><span class="text-xs" style="color:var(--muted);">→ Customer VIN</span></div>
-            <div class="flex items-center gap-3"><code class="text-xs px-2 py-1 rounded" style="background:rgba(0,0,0,0.3); color:#f59e0b;">{{customer_email}}</code><span class="text-xs" style="color:var(--muted);">→ Customer email</span></div>
+            <div class="flex items-center gap-3"><code class="text-xs px-2 py-1 rounded" style="background:rgba(0,0,0,0.3); color:#f59e0b;">{{to_email}}</code><span class="text-xs" style="color:var(--muted);">→ rmoto7817@gmail.com</span></div>
+            <div class="flex items-center gap-3"><code class="text-xs px-2 py-1 rounded" style="background:rgba(0,0,0,0.3); color:#f59e0b;">{{plan}}</code><span class="text-xs" style="color:var(--muted);">→ Plan name</span></div>
+            <div class="flex items-center gap-3"><code class="text-xs px-2 py-1 rounded" style="background:rgba(0,0,0,0.3); color:#f59e0b;">{{price}}</code><span class="text-xs" style="color:var(--muted);">→ Price ($30)</span></div>
+            <div class="flex items-center gap-3"><code class="text-xs px-2 py-1 rounded" style="background:rgba(0,0,0,0.3); color:#f59e0b;">{{vehicle_type}}</code><span class="text-xs" style="color:var(--muted);">→ Vehicle type</span></div>
+            <div class="flex items-center gap-3"><code class="text-xs px-2 py-1 rounded" style="background:rgba(0,0,0,0.3); color:#f59e0b;">{{vin_number}}</code><span class="text-xs" style="color:var(--muted);">→ VIN</span></div>
+            <div class="flex items-center gap-3"><code class="text-xs px-2 py-1 rounded" style="background:rgba(0,0,0,0.3); color:#f59e0b;">{{customer_email}}</code><span class="text-xs" style="color:var(--muted);">→ Buyer email</span></div>
+            <div class="flex items-center gap-3"><code class="text-xs px-2 py-1 rounded" style="background:rgba(0,0,0,0.3); color:#f59e0b;">{{message}}</code><span class="text-xs" style="color:var(--muted);">→ Full order text</span></div>
           </div>
         </div>
       </section>
@@ -523,24 +565,42 @@ function saveOrder(data) {
     const emailjsServiceId = document.getElementById('ejsServiceId').value.trim();
     const emailjsTemplateId = document.getElementById('ejsTemplateId').value.trim();
 
-    if (!appsScriptUrl) return showToast('Apps Script URL zaroori hai.', 'error');
-    if (!payoneerLink) return showToast('Payoneer link zaroori hai.', 'error');
+    if (!emailjsPublicKey || !emailjsServiceId || !emailjsTemplateId) {
+      return showToast('EmailJS Public Key, Service ID, aur Template ID zaroori hain (Gmail SMTP).', 'error');
+    }
+    if (!payoneerLink) return showToast('Payoneer / checkout link zaroori hai.', 'error');
 
     const config = { appsScriptUrl, payoneerLink, emailjsPublicKey, emailjsServiceId, emailjsTemplateId };
 
-    // 1. localStorage mein save karo (fast, offline)
+    // 1. localStorage — site loads EmailJS from here
     localStorage.setItem(STORAGE_KEY, JSON.stringify(config));
 
-    // 2. Google Sheets mein save karo
-    showToast('Saving to Google Sheets...', 'info');
+    // 2. Also write config.json-style download hint + optional Sheets sync
+    try {
+      const blob = new Blob([JSON.stringify({
+        payoneerLink,
+        emailjsPublicKey,
+        emailjsServiceId,
+        emailjsTemplateId
+      }, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'config.json';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    } catch (e) {}
+
+    showToast('Saving EmailJS config…', 'info');
 
     try {
-      await fetch(appsScriptUrl, {
-        method: 'POST',
-        mode: 'no-cors', // CORS ke saath Apps Script ka kaam hai
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'saveConfig', ...config })
-      });
+      if (appsScriptUrl) {
+        await fetch(appsScriptUrl, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'saveConfig', ...config })
+        });
+      }
 
       updatePreview(config);
       showToast('✅ Config save ho gaya! index.html automatically update ho jayega.', 'success');

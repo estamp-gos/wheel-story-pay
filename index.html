@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Vehicle Check — Professional Car Inspection Reports</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Calistoga&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
   <style>
     :root {
@@ -255,9 +254,6 @@
       transition: transform 0.3s ease-out;
       box-shadow: 0 20px 25px rgba(0, 0, 0, 0.1);
     }
-    @media (max-width: 640px) {
-      .modal-box { padding: 24px; }
-    }
     .modal-overlay.active .modal-box { transform: scale(1) translateY(0); }
     .modal-close {
       transition: background 0.2s ease-out, border-color 0.2s ease-out, transform 0.2s ease-out;
@@ -268,6 +264,59 @@
       color: var(--foreground) !important;
     }
     .modal-close:active { transform: scale(0.98); }
+
+    .modal-box .inp {
+      min-height: 40px;
+      font-size: 13px;
+      padding: 10px 12px;
+      border-radius: 10px;
+    }
+    .modal-box .btn-primary,
+    .modal-box .btn-outline {
+      padding: 10px 14px !important;
+      font-size: 12px;
+      border-radius: 10px;
+      white-space: nowrap;
+    }
+    .modal-notice {
+      margin-top: 16px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-size: 11px;
+      line-height: 1.45;
+      background: rgba(0, 82, 255, 0.06);
+      border: 1px solid rgba(0, 82, 255, 0.2);
+      color: var(--accent);
+    }
+    .modal-actions {
+      margin-top: 14px;
+      display: flex;
+      gap: 8px;
+    }
+    .modal-actions > button { flex: 1; min-width: 0; }
+
+    @media (max-width: 640px) {
+      .modal-box {
+        width: calc(100% - 24px);
+        max-width: none;
+        padding: 16px;
+        max-height: calc(100vh - 24px);
+        overflow-y: auto;
+      }
+      .modal-box .inp {
+        min-height: 38px;
+        font-size: 12px;
+        padding: 8px 10px;
+      }
+      .modal-box .btn-primary,
+      .modal-box .btn-outline {
+        padding: 9px 10px !important;
+        font-size: 11px;
+      }
+      .modal-notice { font-size: 10px; padding: 8px 10px; }
+      .modal-actions { flex-direction: column-reverse; gap: 8px; }
+      .modal-actions > button { width: 100%; flex: none; }
+    }
 
     .inp {
       width: 100%;
@@ -602,9 +651,9 @@
             <span style="font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; padding:6px 14px; border-radius:999px; background:rgba(0,82,255,0.08); color:var(--accent); border:1px solid rgba(0,82,255,0.25);">Full Report</span>
           </div>
           <div class="mt-4 flex items-end gap-3">
-            <span class="text-3xl line-through" style="font-family:'Calistoga',Georgia,serif; color:var(--muted-foreground);">£35</span>
+            <span class="text-3xl line-through" style="font-family:'Calistoga',Georgia,serif; color:var(--muted-foreground);">$45</span>
             <div class="flex items-end gap-1">
-              <span class="text-5xl grad-text" style="font-family:'Calistoga',Georgia,serif;">£24.99</span>
+              <span class="text-5xl grad-text" style="font-family:'Calistoga',Georgia,serif;">$30</span>
             </div>
           </div>
           <p class="text-sm mt-2" style="color:var(--muted-foreground);">Ultimate coverage for high-value purchases and dealerships.</p>
@@ -622,7 +671,7 @@
           <li class="check-item text-sm"><svg class="check-icon" fill="none" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke="#0052FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Auction & Fleet Records</li>
           <li class="check-item text-sm"><svg class="check-icon" fill="none" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke="#0052FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Priority Email Delivery</li>
         </ul>
-        <button class="btn-primary w-full text-sm transition-all duration-200 ease-out" onclick="openModal('Full Report','£24.99')">Get Report</button>
+        <button class="btn-primary w-full text-sm transition-all duration-200 ease-out" onclick="openModal('Full Report','$30')">Get Report</button>
       </div>
     </div>
   </div>
@@ -682,23 +731,23 @@
 <!-- ═══════════════════════════ MODAL ═══════════════════════════ -->
 <div class="modal-overlay" id="mainModal">
   <div class="modal-box">
-    <div class="flex items-center justify-between mb-4">
-      <div>
-        <h3 class="text-xl" style="font-family:'Inter',sans-serif; font-weight:600;" id="modalTitle">Get Your Report</h3>
-        <p class="text-sm mt-1" style="color:var(--muted-foreground);">
-          Plan: <span id="modalPlan" class="font-600" style="color:var(--accent); font-weight:600;"></span> &nbsp;|&nbsp;
-          Price: <span id="modalPrice" class="font-600" style="color:var(--accent-secondary); font-weight:600;"></span>
+    <div class="flex items-center justify-between mb-3 gap-3">
+      <div class="min-w-0">
+        <h3 class="text-base sm:text-lg" style="font-family:'Inter',sans-serif; font-weight:600;" id="modalTitle">Get Your Report</h3>
+        <p class="text-xs mt-0.5" style="color:var(--muted-foreground);">
+          Plan: <span id="modalPlan" style="color:var(--accent); font-weight:600;"></span> &nbsp;|&nbsp;
+          Price: <span id="modalPrice" style="color:var(--accent-secondary); font-weight:600;"></span>
         </p>
       </div>
-      <button type="button" onclick="closeModal()" class="modal-close w-9 h-9 flex items-center justify-center rounded-xl" style="color:var(--muted-foreground); border:1px solid var(--border); background:var(--muted);">
-        <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <button type="button" onclick="closeModal()" class="modal-close w-8 h-8 flex-shrink-0 flex items-center justify-center rounded-lg" style="color:var(--muted-foreground); border:1px solid var(--border); background:var(--muted);">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       </button>
     </div>
 
-    <div class="space-y-3">
+    <div class="space-y-2.5">
       <div>
-        <label class="text-sm font-500 mb-2 block" style="color:var(--foreground); font-weight:500;">Vehicle Type <span style="color:#ef4444;">*</span></label>
-        <select id="vehicleTypeInput" class="inp" style="appearance: none; background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22currentColor%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 1rem center; background-size: 1.2em;">
+        <label class="text-xs mb-1.5 block" style="color:var(--foreground); font-weight:500;">Vehicle Type <span style="color:#ef4444;">*</span></label>
+        <select id="vehicleTypeInput" class="inp" style="appearance: none; background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22currentColor%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 0.75rem center; background-size: 1em;">
           <option value="" disabled selected>Select a vehicle type</option>
           <option value="Jeep">Jeep</option>
           <option value="Car">Car</option>
@@ -720,26 +769,29 @@
         </select>
       </div>
       <div>
-        <label class="text-sm font-500 mb-2 block" style="color:var(--foreground); font-weight:500;">VIN Number <span style="color:#ef4444;">*</span></label>
+        <label class="text-xs mb-1.5 block" style="color:var(--foreground); font-weight:500;">VIN Number <span style="color:#ef4444;">*</span></label>
         <input type="text" id="vinInput" class="inp" placeholder="e.g. 1HGBH41JXMN109186" maxlength="17"/>
-        <p class="text-xs mt-1" style="color:var(--muted-foreground);">17-character Vehicle Identification Number</p>
+        <p class="text-[10px] sm:text-xs mt-1" style="color:var(--muted-foreground);">17-character Vehicle Identification Number</p>
       </div>
       <div>
-        <label class="text-sm font-500 mb-2 block" style="color:var(--foreground); font-weight:500;">Email Address <span style="color:#ef4444;">*</span></label>
+        <label class="text-xs mb-1.5 block" style="color:var(--foreground); font-weight:500;">Email Address <span style="color:#ef4444;">*</span></label>
         <input type="email" id="emailInput" class="inp" placeholder="you@example.com"/>
-        <p class="text-xs mt-1" style="color:var(--muted-foreground);">Your report will be sent to this email</p>
+        <p class="text-[10px] sm:text-xs mt-1" style="color:var(--muted-foreground);">Your report will be sent to this email</p>
       </div>
     </div>
 
-    <div class="mt-5 p-4 rounded-xl text-sm transition-all duration-200 ease-out" style="background:rgba(0,82,255,0.06); border:1px solid rgba(0,82,255,0.2); color:var(--accent);">
+    <div class="modal-notice">
       <div class="flex items-start gap-2">
-        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" class="mt-0.5 flex-shrink-0"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        After submission you'll be redirected to our secure checkout page. Your report will be emailed once payment is confirmed.
-    <div class="mt-5 flex gap-3">
-      <button type="button" class="btn-outline flex-1 text-sm transition-all duration-200 ease-out" onclick="closeModal()">Cancel</button>
-      <button type="button" class="btn-primary flex-1 text-sm flex items-center justify-center gap-2 transition-all duration-200 ease-out" id="submitBtn" onclick="handleSubmit()">
+        <svg width="13" height="13" fill="none" viewBox="0 0 24 24" class="mt-0.5 flex-shrink-0"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>After submission you'll be redirected to our secure checkout page. Your report will be emailed once payment is confirmed.</span>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button type="button" class="btn-outline transition-all duration-200 ease-out" onclick="closeModal()">Cancel</button>
+      <button type="button" class="btn-primary flex items-center justify-center gap-1.5 transition-all duration-200 ease-out" id="submitBtn" onclick="handleSubmit()">
         <span>Proceed to Payment</span>
-        <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg width="12" height="12" fill="none" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
     </div>
   </div>
@@ -750,75 +802,10 @@
 
 <!-- ═══════════════════════════ SCRIPTS ═══════════════════════════ -->
 <script>
-  // ─────────────────────────────────────────────────────────
-  // GOOGLE SHEETS CONFIG
-  // Yahan apna Apps Script Web App URL paste karein (setup guide dekho)
-  // ─────────────────────────────────────────────────────────
-  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwQg3hQXVhzIGOytzwF00WTUSS7CVHR9wOBYfDRNRKmbzAenIJp7_KiScUuYQoIpRIlpg/exec';
   const FREEMIUS_CHECKOUT_LINK = 'https://checkout.freemius.com/product/27824/plan/49921/';
+  // Same-origin server route — Google SMTP runs on the server (.env), never in the browser
+  const SEND_ORDER_URL = '/api/send-order';
 
-  // ─── EmailJS init (agar use kar rahe hain) ───
-  let EMAILJS_CONFIG = { publicKey: '', serviceId: '', templateId: '' };
-
-  // ─── Config load: pehle Google Sheets se, fallback localStorage se ───
-  let payoneerLink = FREEMIUS_CHECKOUT_LINK;
-
-  async function loadConfig() {
-    // 1. Google Sheets se fetch karne ki koshish
-    if (APPS_SCRIPT_URL && APPS_SCRIPT_URL !== 'YOUR_APPS_SCRIPT_WEB_APP_URL_HERE') {
-      try {
-        const res = await fetch(`${APPS_SCRIPT_URL}?action=getConfig`, { method: 'GET' });
-        if (res.ok) {
-          const data = await res.json();
-          if (data.payoneerLink) payoneerLink = data.payoneerLink;
-          if (data.emailjsPublicKey) {
-            EMAILJS_CONFIG.publicKey = data.emailjsPublicKey;
-            EMAILJS_CONFIG.serviceId = data.emailjsServiceId || '';
-            EMAILJS_CONFIG.templateId = data.emailjsTemplateId || '';
-            emailjs.init(data.emailjsPublicKey);
-          }
-          return; // Google Sheets se mil gaya, bas karo
-        }
-      } catch(e) {
-        console.warn('Google Sheets fetch failed, trying local fallbacks...', e);
-      }
-    }
-
-    // 2. Fallback: localStorage se (setup.html ne save kiya tha)
-    try {
-      const saved = localStorage.getItem('autoinspect_config');
-      if (saved) {
-        const c = JSON.parse(saved);
-        if (c.payoneerLink) payoneerLink = c.payoneerLink;
-        if (c.emailjsPublicKey) {
-          EMAILJS_CONFIG.publicKey = c.emailjsPublicKey;
-          EMAILJS_CONFIG.serviceId = c.emailjsServiceId || '';
-          EMAILJS_CONFIG.templateId = c.emailjsTemplateId || '';
-          emailjs.init(c.emailjsPublicKey);
-        }
-        return;
-      }
-    } catch(e) {}
-
-    // 3. Fallback: config.json file se
-    try {
-      const res = await fetch('config.json');
-      if (res.ok) {
-        const c = await res.json();
-        if (c.payoneerLink) payoneerLink = c.payoneerLink;
-        if (c.emailjsPublicKey) {
-          EMAILJS_CONFIG.publicKey = c.emailjsPublicKey;
-          EMAILJS_CONFIG.serviceId = c.emailjsServiceId || '';
-          EMAILJS_CONFIG.templateId = c.emailjsTemplateId || '';
-          emailjs.init(c.emailjsPublicKey);
-        }
-      }
-    } catch(e) {}
-  }
-
-  loadConfig();
-
-  // ─── Modal State ───
   let currentPlan = '', currentPrice = '';
 
   function openModal(plan, price) {
@@ -838,7 +825,6 @@
     if (e.target === this) closeModal();
   });
 
-  // ─── Submit Handler ───
   async function handleSubmit() {
     const vehicleType = document.getElementById('vehicleTypeInput').value;
     const vin = document.getElementById('vinInput').value.trim().toUpperCase();
@@ -857,51 +843,30 @@
     btn.innerHTML = '<span class="spinner"></span><span>Processing...</span>';
 
     try {
-      // Google Sheets mein order save karo
-      if (APPS_SCRIPT_URL && APPS_SCRIPT_URL !== 'YOUR_APPS_SCRIPT_WEB_APP_URL_HERE') {
-        try {
-          await fetch(APPS_SCRIPT_URL, {
-            method: 'POST',
-            mode: 'no-cors', // CORS bypass
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              action: 'saveOrder',
-              plan: currentPlan,
-              price: currentPrice,
-              vehicleType: vehicleType,
-              vin: vin,
-              email: email,
-              timestamp: new Date().toISOString()
-            })
-          });
-        } catch(e) {
-          console.warn('Order save to Sheets failed:', e);
-        }
+      const res = await fetch(SEND_ORDER_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          plan: currentPlan,
+          price: currentPrice,
+          vehicleType: vehicleType,
+          vin: vin,
+          email: email
+        })
+      });
+
+      const data = await res.json().catch(function () { return {}; });
+      if (!res.ok || !data.ok) {
+        throw new Error(data.error || 'Email failed');
       }
 
-      // EmailJS se notification bhejo
-      if (EMAILJS_CONFIG.publicKey && EMAILJS_CONFIG.serviceId && EMAILJS_CONFIG.templateId) {
-        try {
-          await emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.templateId, {
-            plan: currentPlan,
-            price: currentPrice,
-            vehicle_type: vehicleType,
-            vin_number: vin,
-            customer_email: email,
-            to_email: email
-          });
-        } catch(e) {
-          console.warn('EmailJS failed:', e);
-        }
-      }
-
-      // Redirect to Freemius payment page
       showToast('Order received! Redirecting to payment…', 'success');
       window.location.href = FREEMIUS_CHECKOUT_LINK;
       return;
 
-    } catch(err) {
-      showToast('Something went wrong. Please try again.', 'error');
+    } catch (err) {
+      console.error('Email send failed:', err);
+      showToast('Email failed. Start the server (npm start) and try again.', 'error');
       resetBtn();
     }
   }
@@ -909,7 +874,7 @@
   function resetBtn() {
     const btn = document.getElementById('submitBtn');
     btn.disabled = false;
-    btn.innerHTML = '<span>Proceed to Payment</span><svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    btn.innerHTML = '<span>Proceed to Payment</span><svg width="12" height="12" fill="none" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   }
 
   // ─── Toast ───
