@@ -857,7 +857,7 @@
 
       const data = await res.json().catch(function () { return {}; });
       if (!res.ok || !data.ok) {
-        throw new Error(data.error || 'Email failed');
+        throw new Error(data.error || ('Email failed (HTTP ' + res.status + ')'));
       }
 
       showToast('Order received! Redirecting to payment…', 'success');
@@ -866,7 +866,7 @@
 
     } catch (err) {
       console.error('Email send failed:', err);
-      showToast('Email failed. Start the server (npm start) and try again.', 'error');
+      showToast((err && err.message) ? err.message : 'Email failed. Please try again.', 'error');
       resetBtn();
     }
   }
