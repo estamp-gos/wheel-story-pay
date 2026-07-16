@@ -640,7 +640,7 @@
       <p style="color:var(--muted-foreground);">One-time payment. No subscriptions. No hidden fees.</p>
     </div>
 
-    <div class="max-w-lg mx-auto">
+    <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
       <!-- FULL REPORT -->
       <div class="plan-card popular p-8 md:p-10 flex flex-col reveal transition-all duration-200 ease-out">
         <div class="absolute top-5 right-5">
@@ -673,6 +673,30 @@
         </ul>
         <button class="btn-primary w-full text-sm transition-all duration-200 ease-out" onclick="openModal('Full Report','$30')">Get Report</button>
       </div>
+
+      <!-- PREMIUM REPORT -->
+      <div class="plan-card p-8 md:p-10 flex flex-col reveal transition-all duration-200 ease-out" style="transition-delay:0.12s;">
+        <div class="mb-6">
+          <div class="flex items-center gap-2 mb-1">
+            <span style="font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; padding:6px 14px; border-radius:999px; background:rgba(0,82,255,0.08); color:var(--accent); border:1px solid rgba(0,82,255,0.25);">Premium Report</span>
+          </div>
+          <div class="mt-4 flex items-end gap-3">
+            <div class="flex items-end gap-1">
+              <span class="text-5xl grad-text" style="font-family:'Calistoga',Georgia,serif;">$50</span>
+            </div>
+          </div>
+          <p class="text-sm mt-2" style="color:var(--muted-foreground);">Expanded report package for buyers who want extra verification and added peace of mind.</p>
+        </div>
+        <hr class="divider my-4"/>
+        <ul class="space-y-3 flex-1 mb-8">
+          <li class="check-item text-sm"><svg class="check-icon" fill="none" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke="#0052FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Everything in Full Report</li>
+          <li class="check-item text-sm"><svg class="check-icon" fill="none" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke="#0052FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Priority Order Handling</li>
+          <li class="check-item text-sm"><svg class="check-icon" fill="none" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke="#0052FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Extra Listing Verification</li>
+          <li class="check-item text-sm"><svg class="check-icon" fill="none" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke="#0052FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Enhanced Ownership Trace</li>
+          <li class="check-item text-sm"><svg class="check-icon" fill="none" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke="#0052FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Priority Email Delivery</li>
+        </ul>
+        <button class="btn-primary w-full text-sm transition-all duration-200 ease-out" onclick="openModal('Premium Report','$50')">Get Premium Report</button>
+      </div>
     </div>
   </div>
 </section>
@@ -704,7 +728,7 @@
           <span class="font-600 text-base" style="font-family:'Inter',sans-serif; font-weight:600;">Which payment methods are accepted?</span>
           <svg class="faq-chevron faq-icon" width="20" height="20" fill="none" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 9l-7 7-7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
         </button>
-        <div class="faq-answer" id="faq3-body">We accept all major credit/debit cards and PayPal through our secure Freemius checkout flow.</div>
+        <div class="faq-answer" id="faq3-body">We accept all major credit/debit cards through our secure Stripe checkout.</div>
       </div>
       <div class="plan-card faq-item p-6 md:p-8 reveal transition-all duration-200 ease-out" id="faq4">
         <button type="button" class="faq-toggle" aria-expanded="false" aria-controls="faq4-body" id="faq4-btn">
@@ -802,7 +826,10 @@
 
 <!-- ═══════════════════════════ SCRIPTS ═══════════════════════════ -->
 <script>
-  const FREEMIUS_CHECKOUT_LINK = 'https://checkout.freemius.com/product/27824/plan/49921/';
+  const STRIPE_CHECKOUT_LINKS = {
+    '$30': 'https://buy.stripe.com/fZufZieqs35Rfa7bu0fjG0c',
+    '$50': 'https://buy.stripe.com/6oU28s2HKgWH7HFeGcfjG0d'
+  };
   // Same-origin server route — Google SMTP runs on the server (.env), never in the browser
   const SEND_ORDER_URL = '/api/send-order';
 
@@ -861,7 +888,11 @@
       }
 
       showToast('Order received! Redirecting to payment…', 'success');
-      window.location.href = FREEMIUS_CHECKOUT_LINK;
+      const checkoutUrl = STRIPE_CHECKOUT_LINKS[currentPrice];
+      if (!checkoutUrl) {
+        throw new Error('No payment link found for this plan.');
+      }
+      window.location.href = checkoutUrl;
       return;
 
     } catch (err) {
