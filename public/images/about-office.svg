@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" fill="none" role="img" aria-label="Modern office workspace illustration">
+  <defs>
+    <linearGradient id="office-bg" x1="0" y1="0" x2="800" y2="500" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F8FAFC"/>
+      <stop offset="1" stop-color="#E9EDF1"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#office-bg)"/>
+
+  <!-- Floor -->
+  <rect x="0" y="380" width="800" height="120" fill="#E2E8F0"/>
+  <line x1="0" y1="380" x2="800" y2="380" stroke="#CBD5E1" stroke-width="1"/>
+
+  <!-- Window wall -->
+  <rect x="480" y="60" width="280" height="320" rx="4" fill="#CBD5E1" stroke="#94A3B8"/>
+  <line x1="560" y1="60" x2="560" y2="380" stroke="#94A3B8" stroke-width="1"/>
+  <line x1="640" y1="60" x2="640" y2="380" stroke="#94A3B8" stroke-width="1"/>
+  <line x1="720" y1="60" x2="720" y2="380" stroke="#94A3B8" stroke-width="1"/>
+  <line x1="480" y1="160" x2="760" y2="160" stroke="#94A3B8" stroke-width="1"/>
+  <line x1="480" y1="260" x2="760" y2="260" stroke="#94A3B8" stroke-width="1"/>
+  <rect x="480" y="60" width="280" height="320" fill="#FFFFFF" opacity="0.15"/>
+
+  <!-- Desk -->
+  <rect x="120" y="300" width="320" height="12" rx="2" fill="#1E293B"/>
+  <rect x="140" y="312" width="8" height="68" fill="#334155"/>
+  <rect x="412" y="312" width="8" height="68" fill="#334155"/>
+
+  <!-- Monitor -->
+  <rect x="200" y="200" width="160" height="100" rx="6" fill="#1E293B"/>
+  <rect x="208" y="208" width="144" height="76" rx="2" fill="#F8FAFC"/>
+  <!-- Report on screen -->
+  <rect x="220" y="220" width="60" height="6" rx="2" fill="#1E293B"/>
+  <rect x="220" y="234" width="120" height="4" rx="1" fill="#E2E8F0"/>
+  <rect x="220" y="244" width="100" height="4" rx="1" fill="#E2E8F0"/>
+  <rect x="220" y="258" width="48" height="14" rx="3" fill="#ECFDF5" stroke="#047857"/>
+  <rect x="276" y="258" width="48" height="14" rx="3" fill="#ECFDF5" stroke="#047857"/>
+  <rect x="268" y="300" width="24" height="8" rx="2" fill="#64748B"/>
+
+  <!-- Chair -->
+  <rect x="260" y="340" width="80" height="8" rx="4" fill="#64748B"/>
+  <rect x="288" y="320" width="24" height="28" rx="4" fill="#94A3B8"/>
+  <rect x="276" y="300" width="48" height="28" rx="8" fill="#CBD5E1" stroke="#94A3B8"/>
+
+  <!-- Plant -->
+  <rect x="60" y="340" width="40" height="40" rx="4" fill="#64748B"/>
+  <ellipse cx="80" cy="320" rx="28" ry="36" fill="#047857" opacity="0.7"/>
+  <ellipse cx="68" cy="310" rx="16" ry="24" fill="#047857"/>
+  <ellipse cx="92" cy="312" rx="14" ry="22" fill="#059669"/>
+
+  <!-- Bookshelf -->
+  <rect x="40" y="120" width="80" height="200" rx="4" fill="#FFFFFF" stroke="#E2E8F0"/>
+  <line x1="40" y1="170" x2="120" y2="170" stroke="#E2E8F0"/>
+  <line x1="40" y1="220" x2="120" y2="220" stroke="#E2E8F0"/>
+  <line x1="40" y1="270" x2="120" y2="270" stroke="#E2E8F0"/>
+  <rect x="52" y="132" width="12" height="32" rx="1" fill="#1E293B"/>
+  <rect x="68" y="136" width="10" height="28" rx="1" fill="#1E293B"/>
+  <rect x="82" y="140" width="14" height="24" rx="1" fill="#334155"/>
+  <rect x="52" y="182" width="20" height="32" rx="1" fill="#64748B"/>
+  <rect x="76" y="186" width="16" height="28" rx="1" fill="#94A3B8"/>
+
+  <!-- Whiteboard -->
+  <rect x="160" y="80" width="200" height="120" rx="4" fill="#FFFFFF" stroke="#E2E8F0"/>
+  <rect x="176" y="100" width="80" height="6" rx="2" fill="#1E293B"/>
+  <line x1="176" y1="120" x2="340" y2="120" stroke="#E2E8F0"/>
+  <line x1="176" y1="140" x2="300" y2="140" stroke="#E2E8F0"/>
+  <circle cx="200" cy="160" r="8" fill="none" stroke="#047857" stroke-width="2"/>
+  <path d="M220 168 L260 148 L280 160" stroke="#1E293B" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+  <!-- Team silhouettes at standing desk -->
+  <g transform="translate(520, 260)">
+    <rect x="0" y="80" width="180" height="8" rx="2" fill="#CBD5E1"/>
+    <rect x="20" y="88" width="6" height="52" fill="#94A3B8"/>
+    <rect x="154" y="88" width="6" height="52" fill="#94A3B8"/>
+    <!-- Person 1 -->
+    <circle cx="50" cy="40" r="14" fill="#D4A574"/>
+    <rect x="38" y="54" width="24" height="32" rx="6" fill="#1E293B"/>
+    <!-- Person 2 -->
+    <circle cx="120" cy="36" r="14" fill="#C68642"/>
+    <rect x="108" y="50" width="24" height="36" rx="6" fill="#1E293B"/>
+  </g>
+
+  <!-- Accent elements -->
+  <rect x="680" y="400" width="80" height="60" rx="8" fill="#FFFFFF" stroke="#E2E8F0"/>
+  <rect x="692" y="412" width="56" height="36" rx="4" fill="#F8FAFC" stroke="#E2E8F0"/>
+  <text x="720" y="434" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#1E293B">VIN</text>
+</svg>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" fill="none" role="img" aria-label="Priya avatar">
+  <rect width="96" height="96" rx="48" fill="#E9EDF1"/>
+  <!-- Warm skin tone -->
+  <circle cx="48" cy="48" r="36" fill="#C68642"/>
+  <!-- Hair -->
+  <path d="M20 50 C18 28 78 28 76 50 C80 42 74 22 48 22 C22 22 16 42 20 50 Z" fill="#1E293B"/>
+  <path d="M20 50 C22 68 32 76 48 76 C64 76 74 68 76 50" fill="#1E293B"/>
+  <!-- Face -->
+  <ellipse cx="48" cy="56" rx="22" ry="20" fill="#B8763A"/>
+  <!-- Eyes -->
+  <ellipse cx="38" cy="50" rx="3" ry="3.5" fill="#1E293B"/>
+  <ellipse cx="58" cy="50" rx="3" ry="3.5" fill="#1E293B"/>
+  <!-- Smile -->
+  <path d="M40 62 Q48 68 56 62" stroke="#1E293B" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- Initials badge -->
+  <rect x="62" y="62" width="28" height="28" rx="6" fill="#1E293B"/>
+  <text x="76" y="81" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#FFFFFF">PS</text>
+</svg>

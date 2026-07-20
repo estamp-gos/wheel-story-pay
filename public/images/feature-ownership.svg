@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 280" fill="none" role="img" aria-label="Ownership timeline illustration">
+  <defs>
+    <linearGradient id="own-bg" x1="0" y1="0" x2="480" y2="280" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F8FAFC"/>
+      <stop offset="1" stop-color="#E9EDF1"/>
+    </linearGradient>
+  </defs>
+  <rect width="480" height="280" rx="12" fill="url(#own-bg)"/>
+  <rect x="1" y="1" width="478" height="278" rx="11" stroke="#E2E8F0"/>
+
+  <!-- Vertical timeline -->
+  <line x1="120" y1="48" x2="120" y2="232" stroke="#E2E8F0" stroke-width="3"/>
+
+  <!-- Owner 1 -->
+  <circle cx="120" cy="72" r="12" fill="#1E293B"/>
+  <circle cx="120" cy="72" r="5" fill="#FFFFFF"/>
+  <rect x="152" y="52" width="280" height="48" rx="8" fill="#FFFFFF" stroke="#E2E8F0"/>
+  <rect x="168" y="64" width="28" height="28" rx="14" fill="#CBD5E1"/>
+  <circle cx="182" cy="74" r="6" fill="#94A3B8"/>
+  <path d="M176 82c4-4 12-4 12 0" stroke="#94A3B8" stroke-width="1.5" fill="none"/>
+  <text x="208" y="72" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#1E293B">Original owner</text>
+  <text x="208" y="88" font-family="system-ui, sans-serif" font-size="10" fill="#94A3B8">2019 - 2021 | TX</text>
+  <rect x="368" y="64" width="52" height="20" rx="4" fill="#E9EDF1"/>
+  <text x="378" y="78" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#64748B">2 yrs</text>
+
+  <!-- Owner 2 -->
+  <circle cx="120" cy="140" r="12" fill="#1E293B"/>
+  <circle cx="120" cy="140" r="5" fill="#FFFFFF"/>
+  <rect x="152" y="120" width="280" height="48" rx="8" fill="#FFFFFF" stroke="#E2E8F0"/>
+  <rect x="168" y="132" width="28" height="28" rx="14" fill="#E2E8F0"/>
+  <circle cx="182" cy="142" r="6" fill="#1E293B" opacity="0.6"/>
+  <path d="M176 150c4-4 12-4 12 0" stroke="#1E293B" stroke-width="1.5" fill="none" opacity="0.6"/>
+  <text x="208" y="140" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#1E293B">Private owner</text>
+  <text x="208" y="156" font-family="system-ui, sans-serif" font-size="10" fill="#94A3B8">2021 - 2024 | CA</text>
+  <rect x="368" y="132" width="52" height="20" rx="4" fill="#E9EDF1"/>
+  <text x="378" y="146" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#64748B">3 yrs</text>
+
+  <!-- Owner 3 (current) -->
+  <circle cx="120" cy="208" r="12" fill="#047857"/>
+  <circle cx="120" cy="208" r="5" fill="#FFFFFF"/>
+  <rect x="152" y="188" width="280" height="48" rx="8" fill="#FFFFFF" stroke="#047857" stroke-width="1.5"/>
+  <rect x="168" y="200" width="28" height="28" rx="14" fill="#ECFDF5"/>
+  <circle cx="182" cy="210" r="6" fill="#047857" opacity="0.6"/>
+  <path d="M176 218c4-4 12-4 12 0" stroke="#047857" stroke-width="1.5" fill="none" opacity="0.6"/>
+  <text x="208" y="208" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#1E293B">Current owner</text>
+  <text x="208" y="224" font-family="system-ui, sans-serif" font-size="10" fill="#94A3B8">2024 - present | TX</text>
+  <rect x="356" y="200" width="64" height="20" rx="4" fill="#ECFDF5"/>
+  <text x="366" y="214" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#047857">Active</text>
+
+  <!-- Header label -->
+  <text x="32" y="36" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#1E293B" letter-spacing="0.06em">3 OWNERS</text>
+</svg>

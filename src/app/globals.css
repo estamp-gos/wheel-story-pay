@@ -1,0 +1,120 @@
+@import "tailwindcss";
+
+:root {
+  --color-primary: #1e293b;
+  --color-primary-light: #334155;
+  --color-on-primary: #ffffff;
+  --color-secondary: #475569;
+  --color-accent: #1e293b;
+  --color-accent-hover: #0f172a;
+  --color-accent-warm: #1e293b;
+  --color-success: #047857;
+  --color-background: #f8fafc;
+  --color-surface: #ffffff;
+  --color-muted: #e9edf1;
+  --color-muted-dark: #cbd5e1;
+  --color-border: #e2e8f0;
+  --color-foreground: #0f172a;
+  --color-foreground-muted: #64748b;
+  --color-ring: #1e293b;
+  --color-destructive: #1e293b;
+  --shadow-sm: 0 1px 2px rgb(15 23 42 / 0.05);
+  --shadow-md: 0 4px 16px rgb(15 23 42 / 0.08);
+  --shadow-lg: 0 12px 40px rgb(15 23 42 / 0.12);
+  --radius: 0.5rem;
+}
+
+@theme inline {
+  --color-primary: var(--color-primary);
+  --color-primary-light: var(--color-primary-light);
+  --color-on-primary: var(--color-on-primary);
+  --color-secondary: var(--color-secondary);
+  --color-accent: var(--color-accent);
+  --color-accent-hover: var(--color-accent-hover);
+  --color-accent-warm: var(--color-accent-warm);
+  --color-success: var(--color-success);
+  --color-background: var(--color-background);
+  --color-surface: var(--color-surface);
+  --color-muted: var(--color-muted);
+  --color-muted-dark: var(--color-muted-dark);
+  --color-border: var(--color-border);
+  --color-foreground: var(--color-foreground);
+  --color-foreground-muted: var(--color-foreground-muted);
+  --color-ring: var(--color-ring);
+  --font-sans: var(--font-body);
+  --font-heading: var(--font-heading);
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-body), system-ui, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading), system-ui, sans-serif;
+  letter-spacing: -0.02em;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-accent) 20%, transparent);
+  color: var(--color-foreground);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 2px;
+}
+
+/* CSS fallback so content stays visible if JS fails */
+.reveal-item {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .js-ready .reveal-item {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.hero-grid {
+  background-image:
+    linear-gradient(to right, rgb(30 41 59 / 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(30 41 59 / 0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.hero-wash {
+  background:
+    radial-gradient(ellipse 80% 60% at 10% 20%, rgb(30 41 59 / 0.1), transparent 50%),
+    radial-gradient(ellipse 70% 50% at 90% 10%, rgb(30 41 59 / 0.12), transparent 55%),
+    linear-gradient(180deg, #f1f5f9 0%, #f8fafc 45%, #ffffff 100%);
+}

@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 280" fill="none" role="img" aria-label="Listing photos grid illustration">
+  <defs>
+    <linearGradient id="photo-bg" x1="0" y1="0" x2="480" y2="280" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F8FAFC"/>
+      <stop offset="1" stop-color="#E9EDF1"/>
+    </linearGradient>
+  </defs>
+  <rect width="480" height="280" rx="12" fill="url(#photo-bg)"/>
+  <rect x="1" y="1" width="478" height="278" rx="11" stroke="#E2E8F0"/>
+
+  <!-- Photo grid 2x2 -->
+  <g transform="translate(32, 32)">
+    <!-- Main large photo -->
+    <rect width="260" height="180" rx="8" fill="#FFFFFF" stroke="#E2E8F0"/>
+    <rect x="12" y="12" width="236" height="130" rx="4" fill="#CBD5E1"/>
+    <!-- Car in photo -->
+    <path d="M40 110 L70 85 L120 75 L200 75 L230 85 L250 100 L250 115 L230 120 L220 120 L215 128 L195 128 L190 120 L80 120 L75 128 L55 128 L50 120 L30 120 L30 105 Z" fill="#94A3B8"/>
+    <circle cx="80" cy="120" r="14" fill="#1E293B"/>
+    <circle cx="200" cy="120" r="14" fill="#1E293B"/>
+    <rect x="12" y="152" width="80" height="8" rx="2" fill="#E2E8F0"/>
+    <rect x="12" y="164" width="120" height="6" rx="2" fill="#E9EDF1"/>
+
+    <!-- Thumbnail 1 -->
+    <rect x="276" y="0" width="140" height="86" rx="8" fill="#FFFFFF" stroke="#E2E8F0"/>
+    <rect x="288" y="12" width="116" height="62" rx="4" fill="#E9EDF1"/>
+    <path d="M300 58 L320 40 L360 40 L380 58" stroke="#94A3B8" stroke-width="2" fill="none"/>
+    <rect x="308" y="48" width="40" height="20" rx="2" fill="#CBD5E1"/>
+
+    <!-- Thumbnail 2 -->
+    <rect x="276" y="94" width="140" height="86" rx="8" fill="#FFFFFF" stroke="#E2E8F0"/>
+    <rect x="288" y="106" width="116" height="62" rx="4" fill="#E9EDF1"/>
+    <circle cx="346" cy="137" r="20" fill="#CBD5E1"/>
+    <circle cx="346" cy="137" r="10" fill="#94A3B8"/>
+
+    <!-- Thumbnail 3 -->
+    <rect x="276" y="188" width="68" height="56" rx="6" fill="#FFFFFF" stroke="#E2E8F0"/>
+    <rect x="284" y="196" width="52" height="40" rx="3" fill="#CBD5E1"/>
+
+    <!-- Thumbnail 4 -->
+    <rect x="348" y="188" width="68" height="56" rx="6" fill="#FFFFFF" stroke="#E2E8F0"/>
+    <rect x="356" y="196" width="52" height="40" rx="3" fill="#CBD5E1"/>
+    <text x="382" y="222" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="#94A3B8">+8</text>
+  </g>
+
+  <!-- Count badge -->
+  <rect x="32" y="232" width="120" height="28" rx="6" fill="#1E293B"/>
+  <rect x="44" y="240" width="16" height="12" rx="2" fill="none" stroke="#FFFFFF" stroke-width="1.5"/>
+  <circle cx="52" cy="246" r="2" fill="#FFFFFF"/>
+  <text x="68" y="251" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#FFFFFF">12 photos</text>
+</svg>

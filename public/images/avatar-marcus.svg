@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" fill="none" role="img" aria-label="Marcus avatar">
+  <rect width="96" height="96" rx="48" fill="#E9EDF1"/>
+  <!-- Warm skin tone -->
+  <circle cx="48" cy="48" r="36" fill="#D4A574"/>
+  <!-- Hair -->
+  <path d="M24 44 C24 24 72 24 72 44 C72 36 68 28 48 28 C28 28 24 36 24 44 Z" fill="#1E293B"/>
+  <!-- Face shadow -->
+  <ellipse cx="48" cy="58" rx="22" ry="18" fill="#C4956A"/>
+  <!-- Eyes -->
+  <ellipse cx="38" cy="48" rx="3" ry="3.5" fill="#1E293B"/>
+  <ellipse cx="58" cy="48" rx="3" ry="3.5" fill="#1E293B"/>
+  <!-- Smile -->
+  <path d="M40 60 Q48 66 56 60" stroke="#1E293B" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- Initials badge -->
+  <rect x="62" y="62" width="28" height="28" rx="6" fill="#1E293B"/>
+  <text x="76" y="81" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#FFFFFF">MC</text>
+</svg>

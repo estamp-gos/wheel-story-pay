@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none" role="img" aria-label="Team member portrait">
+  <rect width="200" height="200" rx="12" fill="#E9EDF1"/>
+  <!-- Background shape -->
+  <rect x="0" y="120" width="200" height="80" fill="#047857"/>
+  <!-- Shoulders / blazer -->
+  <path d="M40 200 L60 130 L140 130 L160 200 Z" fill="#065F46"/>
+  <path d="M70 130 L100 158 L130 130" fill="#FFFFFF"/>
+  <!-- Neck -->
+  <rect x="88" y="108" width="24" height="28" fill="#C68642"/>
+  <!-- Head -->
+  <ellipse cx="100" cy="88" rx="36" ry="40" fill="#C68642"/>
+  <!-- Hair - longer -->
+  <path d="M64 88 C60 52 140 52 136 88 C140 72 130 40 100 40 C70 40 60 72 64 88 Z" fill="#1E293B"/>
+  <path d="M64 88 C66 108 78 120 100 120 C122 120 134 108 136 88" fill="#1E293B"/>
+  <!-- Face details -->
+  <ellipse cx="86" cy="90" rx="4" ry="5" fill="#1E293B"/>
+  <ellipse cx="114" cy="90" rx="4" ry="5" fill="#1E293B"/>
+  <path d="M92 106 Q100 114 108 106" stroke="#A66B2E" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- Accent badge -->
+  <rect x="148" y="148" width="36" height="36" rx="8" fill="#1E293B"/>
+  <circle cx="166" cy="162" r="8" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+  <line x1="166" y1="158" x2="166" y2="166" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+</svg>

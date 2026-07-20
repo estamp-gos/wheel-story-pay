@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" fill="none" role="img" aria-label="VIN location guide diagram">
+  <defs>
+    <linearGradient id="vin-bg" x1="0" y1="0" x2="640" y2="480" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F8FAFC"/>
+      <stop offset="1" stop-color="#E9EDF1"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="480" fill="url(#vin-bg)"/>
+  <rect x="24" y="24" width="592" height="432" rx="16" fill="#FFFFFF" stroke="#E2E8F0"/>
+
+  <text x="48" y="60" font-family="system-ui, sans-serif" font-size="18" font-weight="700" fill="#1E293B">Where to find your VIN</text>
+  <text x="48" y="84" font-family="system-ui, sans-serif" font-size="13" fill="#94A3B8">Two common locations on every vehicle</text>
+
+  <!-- Car silhouette - side profile -->
+  <g transform="translate(80, 140)">
+    <!-- Ground shadow -->
+    <ellipse cx="220" cy="200" rx="200" ry="12" fill="#1E293B" opacity="0.06"/>
+    <!-- Body -->
+    <path d="M40 160 L80 120 L140 100 L280 100 L340 120 L400 140 L420 160 L420 180 L400 190 L380 190 L370 200 L350 200 L340 190 L100 190 L90 200 L70 200 L60 190 L40 190 Z" fill="#CBD5E1" stroke="#94A3B8" stroke-width="1.5"/>
+    <!-- Roof/window -->
+    <path d="M100 100 L140 100 L160 80 L260 80 L300 100" fill="none" stroke="#94A3B8" stroke-width="1.5"/>
+    <path d="M160 80 L260 80 L280 100 L140 100 Z" fill="#E9EDF1" stroke="#94A3B8" stroke-width="1"/>
+    <!-- Windshield highlight -->
+    <path d="M165 85 L255 85 L275 98 L155 98 Z" fill="#FFFFFF" opacity="0.5"/>
+    <!-- Wheels -->
+    <circle cx="120" cy="190" r="28" fill="#1E293B"/>
+    <circle cx="120" cy="190" r="16" fill="#64748B"/>
+    <circle cx="120" cy="190" r="6" fill="#CBD5E1"/>
+    <circle cx="340" cy="190" r="28" fill="#1E293B"/>
+    <circle cx="340" cy="190" r="16" fill="#64748B"/>
+    <circle cx="340" cy="190" r="6" fill="#CBD5E1"/>
+    <!-- Door line -->
+    <line x1="200" y1="100" x2="200" y2="190" stroke="#94A3B8" stroke-width="1" opacity="0.5"/>
+    <!-- Door handle -->
+    <rect x="210" y="145" width="24" height="6" rx="3" fill="#94A3B8"/>
+  </g>
+
+  <!-- Windshield callout -->
+  <g>
+    <circle cx="268" cy="168" r="14" fill="#1E293B" opacity="0.15"/>
+    <circle cx="268" cy="168" r="8" fill="#1E293B"/>
+    <line x1="276" y1="168" x2="420" y2="120" stroke="#1E293B" stroke-width="1.5"/>
+    <circle cx="420" cy="120" r="4" fill="#1E293B"/>
+    <rect x="430" y="88" width="170" height="72" rx="10" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.5"/>
+    <rect x="446" y="104" width="32" height="32" rx="6" fill="#E2E8F0"/>
+    <path d="M454 120h16M462 112v16" stroke="#1E293B" stroke-width="2" stroke-linecap="round"/>
+    <text x="488" y="118" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#1E293B">Windshield</text>
+    <text x="488" y="136" font-family="system-ui, sans-serif" font-size="10" fill="#94A3B8">Lower-left corner</text>
+    <text x="488" y="150" font-family="system-ui, sans-serif" font-size="10" fill="#94A3B8">of dashboard</text>
+  </g>
+
+  <!-- Door jamb callout -->
+  <g>
+    <circle cx="278" cy="318" r="14" fill="#1E293B" opacity="0.12"/>
+    <circle cx="278" cy="318" r="8" fill="#1E293B"/>
+    <line x1="286" y1="318" x2="420" y2="360" stroke="#1E293B" stroke-width="1.5"/>
+    <circle cx="420" cy="360" r="4" fill="#1E293B"/>
+    <rect x="430" y="328" width="170" height="72" rx="10" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.5"/>
+    <rect x="446" y="344" width="32" height="32" rx="6" fill="#E9EDF1"/>
+    <rect x="452" y="352" width="20" height="16" rx="2" fill="none" stroke="#1E293B" stroke-width="1.5"/>
+    <line x1="456" y1="356" x2="468" y2="356" stroke="#1E293B" stroke-width="1"/>
+    <line x1="456" y1="360" x2="468" y2="360" stroke="#1E293B" stroke-width="1"/>
+    <line x1="456" y1="364" x2="468" y2="364" stroke="#1E293B" stroke-width="1"/>
+    <text x="488" y="358" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#1E293B">Door jamb</text>
+    <text x="488" y="376" font-family="system-ui, sans-serif" font-size="10" fill="#94A3B8">Driver-side sticker</text>
+    <text x="488" y="390" font-family="system-ui, sans-serif" font-size="10" fill="#94A3B8">when door is open</text>
+  </g>
+
+  <!-- VIN example strip -->
+  <rect x="48" y="400" width="544" height="40" rx="8" fill="#F8FAFC" stroke="#E2E8F0"/>
+  <text x="64" y="426" font-family="ui-monospace, monospace" font-size="14" font-weight="600" fill="#1E293B" letter-spacing="0.1em">VIN: 1 H G C M 8 2 6 3 3 A 0 0 4 3 5 2</text>
+</svg>

@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 280" fill="none" role="img" aria-label="Technical specifications document illustration">
+  <defs>
+    <linearGradient id="spec-bg" x1="0" y1="0" x2="480" y2="280" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F8FAFC"/>
+      <stop offset="1" stop-color="#E9EDF1"/>
+    </linearGradient>
+  </defs>
+  <rect width="480" height="280" rx="12" fill="url(#spec-bg)"/>
+  <rect x="1" y="1" width="478" height="278" rx="11" stroke="#E2E8F0"/>
+
+  <!-- Document -->
+  <rect x="80" y="24" width="240" height="232" rx="8" fill="#FFFFFF" stroke="#E2E8F0"/>
+  <rect x="80" y="24" width="240" height="40" rx="8" fill="#1E293B"/>
+  <rect x="80" y="52" width="240" height="12" fill="#1E293B"/>
+  <text x="96" y="50" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#FFFFFF">Factory Specs</text>
+
+  <!-- Spec rows -->
+  <g font-family="system-ui, sans-serif">
+    <text x="96" y="88" font-size="9" fill="#94A3B8">Engine</text>
+    <text x="200" y="88" font-size="10" font-weight="600" fill="#1E293B">2.0L Turbo I4</text>
+    <line x1="96" y1="96" x2="304" y2="96" stroke="#E9EDF1"/>
+
+    <text x="96" y="116" font-size="9" fill="#94A3B8">Transmission</text>
+    <text x="200" y="116" font-size="10" font-weight="600" fill="#1E293B">10-Speed Auto</text>
+    <line x1="96" y1="124" x2="304" y2="124" stroke="#E9EDF1"/>
+
+    <text x="96" y="144" font-size="9" fill="#94A3B8">Drivetrain</text>
+    <text x="200" y="144" font-size="10" font-weight="600" fill="#1E293B">Front-Wheel Drive</text>
+    <line x1="96" y1="152" x2="304" y2="152" stroke="#E9EDF1"/>
+
+    <text x="96" y="172" font-size="9" fill="#94A3B8">Fuel Type</text>
+    <text x="200" y="172" font-size="10" font-weight="600" fill="#1E293B">Premium Unleaded</text>
+    <line x1="96" y1="180" x2="304" y2="180" stroke="#E9EDF1"/>
+
+    <text x="96" y="200" font-size="9" fill="#94A3B8">MPG (city/hwy)</text>
+    <text x="200" y="200" font-size="10" font-weight="600" fill="#1E293B">29 / 35</text>
+    <line x1="96" y1="208" x2="304" y2="208" stroke="#E9EDF1"/>
+
+    <text x="96" y="228" font-size="9" fill="#94A3B8">Body Style</text>
+    <text x="200" y="228" font-size="10" font-weight="600" fill="#1E293B">4-Door Sedan</text>
+  </g>
+
+  <!-- Gear icon panel -->
+  <g transform="translate(340, 48)">
+    <rect width="108" height="108" rx="12" fill="#FFFFFF" stroke="#E2E8F0"/>
+    <circle cx="54" cy="54" r="28" fill="none" stroke="#CBD5E1" stroke-width="3"/>
+    <circle cx="54" cy="54" r="12" fill="#1E293B"/>
+    <rect x="50" y="18" width="8" height="14" rx="2" fill="#94A3B8"/>
+    <rect x="50" y="76" width="8" height="14" rx="2" fill="#94A3B8"/>
+    <rect x="18" y="50" width="14" height="8" rx="2" fill="#94A3B8"/>
+    <rect x="76" y="50" width="14" height="8" rx="2" fill="#94A3B8"/>
+    <rect x="28" y="28" width="10" height="8" rx="2" fill="#94A3B8" transform="rotate(-45 33 32)"/>
+    <rect x="70" y="70" width="10" height="8" rx="2" fill="#94A3B8" transform="rotate(-45 75 74)"/>
+    <rect x="70" y="28" width="10" height="8" rx="2" fill="#94A3B8" transform="rotate(45 75 32)"/>
+    <rect x="28" y="70" width="10" height="8" rx="2" fill="#94A3B8" transform="rotate(45 33 74)"/>
+  </g>
+
+  <!-- Verified strip -->
+  <rect x="340" y="176" width="108" height="80" rx="8" fill="#ECFDF5" stroke="#047857"/>
+  <path d="M360 208l8 8 16-18" stroke="#047857" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <text x="396" y="206" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#047857">OEM</text>
+  <text x="396" y="220" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#047857">Verified</text>
+  <text x="356" y="244" font-family="system-ui, sans-serif" font-size="9" fill="#64748B">Build sheet match</text>
+</svg>

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none" role="img" aria-label="Team member portrait">
+  <rect width="200" height="200" rx="12" fill="#E9EDF1"/>
+  <!-- Background shape -->
+  <rect x="0" y="120" width="200" height="80" fill="#1E293B"/>
+  <!-- Shoulders / shirt -->
+  <path d="M40 200 L60 130 L140 130 L160 200 Z" fill="#0F172A"/>
+  <path d="M70 130 L100 155 L130 130" fill="#F8FAFC"/>
+  <!-- Neck -->
+  <rect x="88" y="108" width="24" height="28" fill="#E8BEAC"/>
+  <!-- Head -->
+  <ellipse cx="100" cy="88" rx="36" ry="40" fill="#E8BEAC"/>
+  <!-- Hair - short gray -->
+  <path d="M68 76 C68 50 132 50 132 76 L132 68 C132 54 118 42 100 42 C82 42 68 54 68 68 Z" fill="#64748B"/>
+  <!-- Glasses -->
+  <rect x="76" y="82" width="20" height="14" rx="4" fill="none" stroke="#1E293B" stroke-width="2"/>
+  <rect x="104" y="82" width="20" height="14" rx="4" fill="none" stroke="#1E293B" stroke-width="2"/>
+  <line x1="96" y1="89" x2="104" y2="89" stroke="#1E293B" stroke-width="2"/>
+  <!-- Face details -->
+  <ellipse cx="86" cy="88" rx="3" ry="4" fill="#1E293B"/>
+  <ellipse cx="114" cy="88" rx="3" ry="4" fill="#1E293B"/>
+  <!-- Beard -->
+  <path d="M82 98 Q100 112 118 98" fill="#94A3B8" opacity="0.35"/>
+  <path d="M92 106 Q100 110 108 106" stroke="#64748B" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <!-- Accent badge -->
+  <rect x="148" y="148" width="36" height="36" rx="8" fill="#FFFFFF" stroke="#E2E8F0"/>
+  <rect x="156" y="158" width="20" height="16" rx="2" fill="none" stroke="#1E293B" stroke-width="1.5"/>
+  <line x1="160" y1="163" x2="172" y2="163" stroke="#1E293B" stroke-width="1"/>
+  <line x1="160" y1="168" x2="172" y2="168" stroke="#1E293B" stroke-width="1"/>
+</svg>
