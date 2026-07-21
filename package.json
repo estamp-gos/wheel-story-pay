@@ -16,6 +16,9 @@
     "react": "19.2.4",
     "react-dom": "19.2.4"
   },
+  "optionalDependencies": {
+    "nodemailer": "^6.9.4"
+  },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20.19.43",

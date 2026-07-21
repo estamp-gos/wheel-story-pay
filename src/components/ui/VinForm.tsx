@@ -15,12 +15,14 @@ export function VinForm({ compact = false, className = "" }: VinFormProps) {
   const router = useRouter();
   const { pricing } = usePricing();
   const [query, setQuery] = useState("");
+  const [email, setEmail] = useState("");
   const [reportType, setReportType] = useState<"vin" | "plate">("vin");
   const [error, setError] = useState("");
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
     const value = query.trim().toUpperCase();
+    const emailValue = email.trim();
     if (!value) {
       setError(reportType === "vin" ? "Enter a VIN to continue." : "Enter a plate number.");
       return;
@@ -30,11 +32,20 @@ export function VinForm({ compact = false, className = "" }: VinFormProps) {
       return;
     }
     setError("");
-    const params = new URLSearchParams({
-      q: value,
-      type: reportType,
-      price: pricing.formatted,
-    });
+    // Send details to server to email them, then continue to the check page
+    try {
+      fetch("/api/send-report", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query: value, type: reportType, price: pricing.formatted, email: emailValue }),
+      }).catch((err) => {
+        console.warn("Failed to send report email:", err);
+      });
+    } catch (err) {
+      console.warn(err);
+    }
+
+    const params = new URLSearchParams({ q: value, type: reportType, price: pricing.formatted });
     router.push(`/check?${params.toString()}`);
   };
 
@@ -78,6 +89,21 @@ export function VinForm({ compact = false, className = "" }: VinFormProps) {
             spellCheck={false}
             aria-invalid={Boolean(error)}
             aria-describedby={error ? "vin-error" : "vin-help"}
+          />
+        </label>
+
+        <label className="block flex-1">
+          <span className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-foreground-muted">
+            Email (optional)
+          </span>
+          <input
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="you@example.com"
+            className="h-12 w-full rounded-lg border border-border bg-background px-4 text-sm text-foreground placeholder:text-foreground-muted/70 transition-colors duration-200 focus:border-primary focus:outline-none focus:ring-2 focus:ring-ring/20"
+            autoComplete="email"
+            spellCheck={false}
+            type="email"
           />
         </label>
 
